@@ -11,24 +11,35 @@ class MainView: View("MatfAsistent") {
         prefWidth = 800.0
         prefHeight = 600.0
 
-
-        center {
-            vbox {
-                style {
-                    border = Border(BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii(0.0), BorderWidths.DEFAULT))
-                }
-                alignment = Pos.CENTER
-                label("Sadržaj")
-            }
-        }
-
         left {
-            vbox {
+            vbox(10) {
                 style {
                     border = Border(BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii(0.0), BorderWidths.DEFAULT))
                 }
                 alignment = Pos.CENTER
                 label("Navigacija")
+
+                (0..5).forEach {
+                    button("Dugme $it")
+                }
+            }
+        }
+
+        center {
+            vbox {
+                stackpane {
+                    maxWidth = Double.MAX_VALUE
+                    prefHeight = 300.0
+                    style {
+                        border = Border(BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii(0.0), BorderWidths.DEFAULT))
+                    }
+
+                    label("Raspored")
+                }
+                style {
+                    border = Border(BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii(0.0), BorderWidths.DEFAULT))
+                }
+                label("Sadržaj")
             }
         }
 
@@ -39,6 +50,7 @@ class MainView: View("MatfAsistent") {
                 }
                 alignment = Pos.CENTER
                 label("Obaveštenja")
+                listview(observableList(*((0..10).map {"Obaveštenje $it"}.toTypedArray())))
             }
         }
     }
