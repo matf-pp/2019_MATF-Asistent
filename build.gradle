@@ -10,6 +10,7 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile 'no.tornado:tornadofx:1.7.17'
 }
 
 compileKotlin {
