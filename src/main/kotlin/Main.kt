@@ -1,3 +1,4 @@
+import data.Repository
 import javafx.application.Application
 import javafx.geometry.Pos
 import javafx.scene.layout.*
@@ -51,7 +52,7 @@ class MainView: View("MatfAsistent") {
                 }
                 alignment = Pos.CENTER
                 label("Obaveštenja")
-                listview(observableList(*((0..10).map {"Obaveštenje $it"}.toTypedArray())))
+                listview(Repository.notifications)
             }
         }
     }
