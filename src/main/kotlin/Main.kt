@@ -3,6 +3,7 @@ import javafx.application.Application
 import javafx.geometry.Pos
 import javafx.scene.layout.*
 import javafx.scene.paint.Color
+import javafx.scene.text.FontWeight
 import tornadofx.*
 
 class MatfAsistentApp : App(MainView::class, CustomStylesheet::class)
@@ -52,7 +53,21 @@ class MainView: View("MatfAsistent") {
                 }
                 alignment = Pos.CENTER
                 label("Obaveštenja")
-                listview(Repository.notifications)
+                listview(Repository.notifications) {
+                    cellFormat {
+                        graphic = cache {
+                            vbox {
+                                label(it.title) {
+                                    style {
+                                        fontSize = 16.px
+                                        fontWeight = FontWeight.BOLD
+                                    }
+                                }
+                                label(it.content)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
