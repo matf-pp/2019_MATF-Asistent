@@ -4,7 +4,7 @@ import javafx.scene.layout.*
 import javafx.scene.paint.Color
 import tornadofx.*
 
-class MatfAsistentApp : App(MainView::class)
+class MatfAsistentApp : App(MainView::class, CustomStylesheet::class)
 
 class MainView: View("MatfAsistent") {
     override val root = borderpane {
@@ -13,6 +13,7 @@ class MainView: View("MatfAsistent") {
 
         left {
             vbox(10) {
+                paddingAll = 10
                 style {
                     border = Border(BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii(0.0), BorderWidths.DEFAULT))
                 }
@@ -51,6 +52,26 @@ class MainView: View("MatfAsistent") {
                 alignment = Pos.CENTER
                 label("Obaveštenja")
                 listview(observableList(*((0..10).map {"Obaveštenje $it"}.toTypedArray())))
+            }
+        }
+    }
+}
+
+class CustomStylesheet : Stylesheet() {
+
+    init {
+        with (Stylesheet) {
+            root {
+                //backgroundColor = multi(c("#6A6A6A"))
+            }
+            label {
+                //textFill = Color.LIGHTGRAY
+            }
+            button {
+                //borderColor += box(topColor, rightColor, leftColor, bottomColor)
+                backgroundRadius = multi(box(0.px))
+                backgroundColor = multi(Color.MIDNIGHTBLUE)
+                textFill = Color.LIGHTGRAY
             }
         }
     }
