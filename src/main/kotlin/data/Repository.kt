@@ -8,6 +8,23 @@ import tornadofx.observableList
  */
 object Repository {
 
+    /**
+     * Iako ispod grma leži jednostavna String informacija, koristeći nabrojivu klasu garantujemo veću
+     * bezbednost u fazi kompilacije, kao i zaobilaženje nekih greški poput slučajne greške u kucanju
+     * pri sirovom upoređivanju String-ova. npr. "Informatika == informatika".
+     */
+    enum class Smerovi {
+        INFORMATIKA, MATEMATIKA, ASTRONOMIJA;
+
+        override fun toString() = when (this) {
+            INFORMATIKA -> "Informatika"
+            MATEMATIKA -> "Matematika"
+            ASTRONOMIJA -> "Astronomija"
+        }
+    }
+
+    val smerovi = observableList(Smerovi.INFORMATIKA, Smerovi.MATEMATIKA, Smerovi.ASTRONOMIJA)
+
     val notifications = observableList<Notification>()
 
     init {
