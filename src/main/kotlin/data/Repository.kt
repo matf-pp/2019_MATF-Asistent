@@ -1,5 +1,8 @@
 package data
 
+import delegate.slowLoad
+import javafx.collections.ObservableList
+import scheduler.Schedule
 import tornadofx.observableList
 
 /** Objekat koji će služiti da se u njemu čuvaju Kolekcije podataka iz različitih izvora, uključujući
@@ -32,8 +35,8 @@ object Repository {
     }
 
     val majors = observableList(Major.COMP_SCI, Major.MATH, Major.ASTRONOMY)
-
     val notifications = observableList<Notification>()
+    val schedules by slowLoad<ObservableList<Schedule>>()
 
     init {
         // Test podaci

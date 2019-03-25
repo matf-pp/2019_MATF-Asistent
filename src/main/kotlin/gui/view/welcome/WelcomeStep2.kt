@@ -1,13 +1,18 @@
 package gui.view.welcome
 
-import tornadofx.View
-import tornadofx.label
-import tornadofx.vbox
+import data.Repository
+import tornadofx.*
 
 class WelcomeStep2 : View("Izbor kurseva") {
 
     override val root = vbox {
-        label("Drugi korak")
+        label("Čekanje na učitavanje rasporeda (koje je beskonačno jer nije implementirano učitavanje)")
+
+        vbox {
+            runAsyncWithOverlay {
+                println(Repository.schedules)
+            }
+        }
     }
 
 }

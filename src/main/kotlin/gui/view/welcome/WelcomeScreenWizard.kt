@@ -34,10 +34,6 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
                 "_Finish" -> "Gotovo"
                 else -> null
             }
-            println(it.text)
         }
     }
-
-
-
 }
