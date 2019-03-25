@@ -17,9 +17,9 @@ class CustomStylesheet : Stylesheet() {
             }
             button {
                 //borderColor += box(topColor, rightColor, leftColor, bottomColor)
-                backgroundRadius = multi(box(0.px))
-                backgroundColor = multi(Color.MIDNIGHTBLUE)
-                textFill = Color.LIGHTGRAY
+//                backgroundRadius = multi(box(0.px))
+//                backgroundColor = multi(Color.MIDNIGHTBLUE)
+//                textFill = Color.LIGHTGRAY
             }
         }
     }

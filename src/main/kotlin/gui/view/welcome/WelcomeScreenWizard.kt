@@ -8,6 +8,8 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
         //TODO graphic = ...
         add(WelcomeStep1::class)
         add(WelcomeStep2::class)
+
+        //TODO prevesti elemente Wizard-a na srpski
     }
 
 }

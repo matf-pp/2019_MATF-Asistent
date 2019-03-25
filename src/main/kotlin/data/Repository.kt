@@ -13,17 +13,25 @@ object Repository {
      * bezbednost u fazi kompilacije, kao i zaobilaženje nekih greški poput slučajne greške u kucanju
      * pri sirovom upoređivanju String-ova. npr. "Informatika == informatika".
      */
-    enum class Smerovi {
-        INFORMATIKA, MATEMATIKA, ASTRONOMIJA;
+    enum class Major {
+        COMP_SCI, MATH, ASTRONOMY;
 
         override fun toString() = when (this) {
-            INFORMATIKA -> "Informatika"
-            MATEMATIKA -> "Matematika"
-            ASTRONOMIJA -> "Astronomija"
+            COMP_SCI -> "Informatika"
+            MATH -> "Matematika"
+            ASTRONOMY -> "Astronomija"
         }
     }
 
-    val smerovi = observableList(Smerovi.INFORMATIKA, Smerovi.MATEMATIKA, Smerovi.ASTRONOMIJA)
+    enum class TimeFramePreference {
+        BEFORE_NOON, NOON, AFTERNOON, NONE
+    }
+    
+    enum class ArrangementPreference {
+        EVEN, GROUPED, NONE
+    }
+
+    val majors = observableList(Major.COMP_SCI, Major.MATH, Major.ASTRONOMY)
 
     val notifications = observableList<Notification>()
 
