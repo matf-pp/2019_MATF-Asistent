@@ -2,9 +2,9 @@ package gui.view.welcome
 
 import javafx.scene.control.Button
 import javafx.scene.control.ButtonBar
-import javafx.scene.control.Label
-import javafx.scene.layout.VBox
 import tornadofx.Wizard
+import tornadofx.enableWhen
+import tornadofx.runLater
 
 class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
 
@@ -14,26 +14,19 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
         add(WelcomeStep2::class)
 
         // Preimenovanje elemenata na srpski
-        val stepsLabel = (root.left as VBox).children[0] as Label // Malo prljavo, ali nema lepšeg načina
-        stepsLabel.textProperty().unbind()
-        stepsLabel.text = "Koraci"
+        stepsTextProperty.value = "Koraci"
+        backButtonTextProperty.value = "Predhodno"
+        nextButtonTextProperty.value = "Sledeće"
+        cancelButtonTextProperty.value = "Otkaži"
+        finishButtonTextProperty.value = "Gotovo"
 
-        (root.bottom as ButtonBar).buttons.forEach {
-            // Kompilator može da garantuje da ako ova naredba kastovanja prođe, nakon toga ta promenljiva može
-            // da se koristi kao da je instanca te klase, bez ponovnog eksplicitnog kastovanja.
-            it as Button
-
-            // Svojstvo teksta je bind-ovano za neko drugo Svojstvo, pa ćemo prvo da ga "otkačimo", pre nego što
-            // krenemo da ga menjamo.
-            it.textProperty().unbind()
-
-            it.text = when (it.text) {
-                "< _Back" -> "Predhodno"
-                "_Next >" -> "Sledeće"
-                "_Cancel" -> "Otkaži"
-                "_Finish" -> "Gotovo"
-                else -> null
-            }
+        // Ručno ispravljanje baga (ukloniti kada izađe sledeća verzija TornadoFX-a)
+        // (videti https://github.com/edvin/tornadofx/commit/1e8fdc7158a270fe73ada2cac84d5530b97e8823)
+        runLater {
+            (root.bottom as ButtonBar).buttons
+                .filterIsInstance<Button>()
+                .first { it.text == "Sledeće" }
+                .enableWhen(canGoNext.and(hasNext).and(currentPageComplete))
         }
     }
 }
