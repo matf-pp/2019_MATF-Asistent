@@ -10,7 +10,9 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile 'no.tornado:tornadofx:1.7.17'
+    implementation "no.tornado:tornadofx:1.7.17"
+    implementation "org.xerial:sqlite-jdbc:3.27.2.1"
+
 }
 
 compileKotlin {

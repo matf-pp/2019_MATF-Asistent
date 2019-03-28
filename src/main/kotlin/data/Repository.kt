@@ -4,6 +4,9 @@ import delegate.slowLoad
 import javafx.collections.ObservableList
 import scheduler.Schedule
 import tornadofx.observableList
+import tornadofx.runAsync
+import java.sql.Connection
+import java.sql.DriverManager
 
 /** Objekat koji će služiti da se u njemu čuvaju Kolekcije podataka iz različitih izvora, uključujući
  *  podatke koje generiše korisnik, podatke sa mreže, i podatke iz baze podataka.
@@ -41,6 +44,20 @@ object Repository {
     init {
         // Test podaci
         notifications.addAll((0..10).map { Notification("Obaveštenje $it", "Neki opis") })
+    }
+
+    private val databaseConnection: Connection by lazy {
+        // TODO program trenutno ne obrađuje slučaj kada baza podataka nije pronađena
+        val dbPathname = "database.db"
+        Class.forName("org.sqlite.JDBC")
+        DriverManager.getConnection("jdbc:sqlite:$dbPathname")
+    }
+
+    private fun loadFromDatabase() {
+        runAsync {
+            var statement = databaseConnection.createStatement()
+            // TODO učitavanje iz baze podataka
+        }
     }
 
 }
