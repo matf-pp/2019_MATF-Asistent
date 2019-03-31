@@ -1,3 +1,3 @@
 package scheduler
 
-class Schedule
+class Timetable

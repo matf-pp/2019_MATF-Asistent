@@ -10,7 +10,7 @@ class WelcomeStep2 : View("Izbor kurseva") {
 
         vbox {
             runAsyncWithOverlay {
-                println(Repository.schedules)
+                println(Repository.timetables)
             }
         }
     }
