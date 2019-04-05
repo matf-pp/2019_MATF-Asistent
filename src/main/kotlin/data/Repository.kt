@@ -3,6 +3,7 @@ package data
 import delegate.slowLoad
 import javafx.collections.ObservableList
 import scheduler.Timetable
+import scraper.fetchCourseListTask
 import tornadofx.observableList
 import tornadofx.runAsync
 import java.sql.Connection
@@ -44,6 +45,11 @@ object Repository {
     init {
         // Test podaci
         notifications.addAll((0..10).map { Notification("Obaveštenje $it", "Neki opis") })
+    }
+
+    fun updateCourseList(major: Major) {
+        // TODO učitavati keširane podatke iz baze podataka ako su oni prisutni
+        fetchCourseListTask(major)
     }
 
     private val databaseConnection: Connection by lazy {

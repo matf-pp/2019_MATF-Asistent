@@ -7,6 +7,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.ButtonBar
 import tornadofx.Wizard
 import tornadofx.enableWhen
+import tornadofx.onChange
 import tornadofx.runLater
 
 class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
@@ -45,5 +46,12 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
         val minimalPausePrefProperty = SimpleBooleanProperty(true)
         val timeFramePrefProperty = SimpleObjectProperty<Repository.TimeFramePreference>()
         val arrangementPrefProperty = SimpleObjectProperty<Repository.ArrangementPreference>()
+
+        init {
+            // Kada god se promeni izabrani smer, treba ažurirati odgovarajuće kurseve za prikaz
+            majorProperty.onChange {
+                Repository.updateCourseList(it!!)
+            }
+        }
     }
 }
