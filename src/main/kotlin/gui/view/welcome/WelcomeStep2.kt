@@ -1,14 +1,14 @@
 package gui.view.welcome
 
+import data.Repository
 import tornadofx.View
+import tornadofx.listview
 import tornadofx.vbox
 
 class WelcomeStep2 : View("Izbor kurseva") {
 
     override val root = vbox {
-        // TODO čekanje na spisak kurseva iz repozitorijuma
-        //  (koji dolazi sa veba, ili lokalno keširanih podataka)
-        //val task = fetchCourseListTask()
+        listview(Repository.allAvailableCourses)
     }
 
 }

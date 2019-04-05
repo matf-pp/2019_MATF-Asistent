@@ -42,6 +42,8 @@ object Repository {
     val notifications = observableList<Notification>()
     val timetables by slowLoad<ObservableList<Timetable>>()
 
+    val allAvailableCourses = observableList<CourseListItem>()
+
     init {
         // Test podaci
         notifications.addAll((0..10).map { Notification("Obaveštenje $it", "Neki opis") })
@@ -49,6 +51,7 @@ object Repository {
 
     fun updateCourseList(major: Major) {
         // TODO učitavati keširane podatke iz baze podataka ako su oni prisutni
+        allAvailableCourses.clear()
         fetchCourseListTask(major)
     }
 
