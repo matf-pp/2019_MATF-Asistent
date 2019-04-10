@@ -1,8 +1,8 @@
 package data
 
-import delegate.slowLoad
-import javafx.collections.ObservableList
+import gui.view.welcome.WelcomeScreenWizard
 import scheduler.Timetable
+import scheduler.generateTimetablesTask
 import scraper.fetchCourseListTask
 import tornadofx.observableList
 import tornadofx.runAsync
@@ -40,7 +40,7 @@ object Repository {
 
     val majors = observableList(Major.COMP_SCI, Major.MATH, Major.ASTRONOMY)
     val notifications = observableList<Notification>()
-    val timetables by slowLoad<ObservableList<Timetable>>()
+    val timetables = observableList<Timetable>()
 
     val allAvailableCourses = observableList<CourseListItem>()
 
@@ -53,6 +53,10 @@ object Repository {
         // TODO učitavati keširane podatke iz baze podataka ako su oni prisutni
         allAvailableCourses.clear()
         fetchCourseListTask(major)
+    }
+
+    fun generateTimetables(viewModel: WelcomeScreenWizard.ViewModel) {
+        generateTimetablesTask(viewModel)
     }
 
     private val databaseConnection: Connection by lazy {
