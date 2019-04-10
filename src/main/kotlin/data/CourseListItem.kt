@@ -7,5 +7,6 @@ data class CourseListItem(
     var title: String,
     var theoryClassCount: Int = 3,
     var practiceClassCount: Int = 3,
-    var espbPoints: Int = 6
+    var espbPoints: Int = 6,
+    var selected: Boolean = false
 )
