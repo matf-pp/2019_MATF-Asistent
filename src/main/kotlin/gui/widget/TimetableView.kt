@@ -1,4 +1,12 @@
 package gui.widget
 
-class TimetableView {
+import javafx.scene.layout.VBox
+import scheduler.Timetable
+
+class TimetableView(timetable: Timetable) : VBox() {
+
+    init {
+        // TODO
+    }
+
 }
