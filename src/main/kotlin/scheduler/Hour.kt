@@ -10,10 +10,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable
 @PlanningEntity
 class Hour (val dayName: String)
 {
-    private var course : Course
-        @PlanningVariable(valueRangeProviderRefs = arrayOf("courseRange"))
-        get() = this.course
-        set(value) {
-            this.course = value
-        }
+    var course: Course? = null
+        @PlanningVariable(valueRangeProviderRefs = ["courseRange"])
+        get() = field
 }

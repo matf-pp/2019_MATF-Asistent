@@ -1,7 +1,6 @@
 package scheduler
-
 /**
- * Onovna klasa za čuvanje podataka o odabranim kursevima.
+ * Osnovna klasa za čuvanje podataka o odabranim kursevima.
  * Ovo će biti klasa koju planer ne sme da menja u toku svog izvršavanja.
  */
 

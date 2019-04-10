@@ -1,5 +1,6 @@
 package scheduler
 
+import org.optaplanner.core.api.domain.constraintweight.ConstraintConfigurationProvider
 import  org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty
 import org.optaplanner.core.api.domain.solution.PlanningScore
 import org.optaplanner.core.api.domain.solution.PlanningSolution
@@ -12,19 +13,19 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore
 
 @PlanningSolution
 class Timetable {
-    private val courseList: List<Course>
+    private val courseList: List<Course>? = null
         @ValueRangeProvider(id = "courseRange")
         @ProblemFactCollectionProperty
-        get() = this.courseList
+        get() = field
 
-    private val hoursList: List<Hour>
+    private val hoursList: List<Hour>? = null
         @PlanningEntityCollectionProperty
-        get() = this.hoursList
+        get() = field
 
-    private var score: HardSoftScore
+    var score: HardSoftScore? = null
         @PlanningScore
-        get () = this.score
-        set (score: HardSoftScore) {
-            this.score = score
-        }
+        get () = field
+
+    @ConstraintConfigurationProvider
+    private lateinit var constraintConfiguration : TimetableConstraintConfiguration
 }
