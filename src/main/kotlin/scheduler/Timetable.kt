@@ -12,13 +12,13 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore
 */
 
 @PlanningSolution
-class Timetable {
-    val courseList: List<Course>? = null
+class Timetable (_courseList: List<Course>, _hoursList: List<Hour>){
+    val courseList: List<Course> = _courseList
         @ValueRangeProvider(id = "courseRange")
         @ProblemFactCollectionProperty
         get() = field
 
-    val hoursList: List<Hour>? = null
+    val hoursList: List<Hour> = _hoursList
         @PlanningEntityCollectionProperty
         get() = field
 
@@ -29,3 +29,5 @@ class Timetable {
     @ConstraintConfigurationProvider
     private lateinit var constraintConfiguration : TimetableConstraintConfiguration
 }
+
+

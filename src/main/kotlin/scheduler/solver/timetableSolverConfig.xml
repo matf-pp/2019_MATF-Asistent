@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<solver>
+    <!-- Definisanje modela -->
+    <scanAnnotatedClasses>
+        <packageInclude> scheduler </packageInclude>
+    </scanAnnotatedClasses>
+
+    <!-- Definisanje funkcije za računanje skora -->
+    <scoreDirectorFactory>
+        <!-- Dodati -->
+    </scoreDirectorFactory>
+
+    <termination>
+        <secondsSpentLimit> 60 </secondsSpentLimit>
+    </termination>
+</solver>
