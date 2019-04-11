@@ -12,16 +12,16 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore
 
 @PlanningSolution
 class Timetable {
-    private val courseList: List<Course>
+    val courseList: List<Course>
         @ValueRangeProvider(id = "courseRange")
         @ProblemFactCollectionProperty
         get() = this.courseList
 
-    private val hoursList: List<Hour>
+    val hoursList: List<Hour>
         @PlanningEntityCollectionProperty
         get() = this.hoursList
 
-    private var score: HardSoftScore
+    var score: HardSoftScore
         @PlanningScore
         get () = this.score
         set (score: HardSoftScore) {
