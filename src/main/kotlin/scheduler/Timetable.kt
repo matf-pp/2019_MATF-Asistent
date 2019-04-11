@@ -13,12 +13,12 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore
 
 @PlanningSolution
 class Timetable {
-    private val courseList: List<Course>? = null
+    val courseList: List<Course>? = null
         @ValueRangeProvider(id = "courseRange")
         @ProblemFactCollectionProperty
         get() = field
 
-    private val hoursList: List<Hour>? = null
+    val hoursList: List<Hour>? = null
         @PlanningEntityCollectionProperty
         get() = field
 

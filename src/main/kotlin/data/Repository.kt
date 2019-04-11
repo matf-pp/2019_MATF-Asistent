@@ -47,6 +47,7 @@ object Repository {
     init {
         // Test podaci
         notifications.addAll((0..10).map { Notification("Obaveštenje $it", "Neki opis") })
+        timetables.add(Timetable())
     }
 
     fun updateCourseList(major: Major) {
