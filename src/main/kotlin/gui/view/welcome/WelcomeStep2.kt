@@ -1,6 +1,6 @@
 package gui.view.welcome
 
-import data.CourseListItem
+import data.Course
 import data.Repository
 import gui.tableview.NullSelectionModel
 import tornadofx.*
@@ -18,11 +18,11 @@ class WelcomeStep2 : View("Izbor kurseva") {
             // Za objašnjenje, pogledati dokumentaciju za NullSelectionModel
             selectionModel = NullSelectionModel(this)
 
-            column("Izabran", CourseListItem::selected).makeEditable()
-            column("Godina", CourseListItem::year)
-            column("Semestar", CourseListItem::semester)
-            column("Naziv", CourseListItem::title)
-            column("Broj ESPB", CourseListItem::espbPoints)
+            column("Izabran", Course::selected).makeEditable()
+            column("Godina", Course::year)
+            column("Semestar", Course::semester)
+            column("Naziv", Course::title)
+            column("Broj ESPB", Course::espbPoints)
         }
     }
 

@@ -1,5 +1,6 @@
 package scheduler
 
+import data.Course
 import org.optaplanner.core.api.domain.constraintweight.ConstraintConfigurationProvider
 import  org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty
 import org.optaplanner.core.api.domain.solution.PlanningScore

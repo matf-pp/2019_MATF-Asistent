@@ -1,5 +1,6 @@
 package scheduler
 
+import data.Course
 import org.optaplanner.core.api.domain.entity.PlanningEntity
 import org.optaplanner.core.api.domain.variable.PlanningVariable
 

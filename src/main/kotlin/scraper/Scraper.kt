@@ -1,9 +1,10 @@
 package scraper
 
-import data.CourseListItem
+import data.Course
 import data.Repository
 import tornadofx.runAsync
 import tornadofx.ui
+import java.time.DayOfWeek
 
 /*
 TODO ovo bi trebao da bude neki zadatak koji učitava listu postojećih kurseva sa veba, okvirno-govoreći u obliku:
@@ -22,9 +23,9 @@ fun fetchCourseListTask(major: Repository.Major) = runAsync {
         Repository.Major.COMP_SCI -> {
             ui {
                 Repository.allAvailableCourses.addAll(
-                    CourseListItem(Repository.Major.COMP_SCI, 1, 1, "Programiranje 1"),
-                    CourseListItem(Repository.Major.COMP_SCI, 1, 1, "Diskretne strukture 1"),
-                    CourseListItem(Repository.Major.COMP_SCI, 1, 1, "Uvod u organizaciju i arhitekturu računara 1")
+                    Course(Repository.Major.COMP_SCI, 1, 1, "Programiranje 1", "P101", 'x', DayOfWeek.MONDAY, 0),
+                    Course(Repository.Major.COMP_SCI, 1, 1, "Diskretne strukture 1", "M101", 'x', DayOfWeek.MONDAY, 0),
+                    Course(Repository.Major.COMP_SCI, 1, 1, "Uvod u organizaciju i arhitekturu računara 1", "P101", 'x', DayOfWeek.MONDAY, 0)
                 )
             }
 
@@ -32,9 +33,9 @@ fun fetchCourseListTask(major: Repository.Major) = runAsync {
         Repository.Major.MATH -> {
             ui {
                 Repository.allAvailableCourses.addAll(
-                    CourseListItem(Repository.Major.COMP_SCI, 1, 1, "Analiza"),
-                    CourseListItem(Repository.Major.COMP_SCI, 1, 1, "Linearna algebra"),
-                    CourseListItem(Repository.Major.COMP_SCI, 1, 1, "Programiranje 1")
+                    Course(Repository.Major.COMP_SCI, 1, 1, "Analiza", "P101", 'x', DayOfWeek.MONDAY, 0),
+                    Course(Repository.Major.COMP_SCI, 1, 1, "Linearna algebra", "P101", 'x', DayOfWeek.MONDAY, 0),
+                    Course(Repository.Major.COMP_SCI, 1, 1, "Programiranje 1", "P101", 'x', DayOfWeek.MONDAY, 0)
                 )
             }
 
@@ -42,9 +43,9 @@ fun fetchCourseListTask(major: Repository.Major) = runAsync {
         Repository.Major.ASTRONOMY -> {
             ui {
                 Repository.allAvailableCourses.addAll(
-                    CourseListItem(Repository.Major.COMP_SCI, 1, 1, "Opšta astronomija 1"),
-                    CourseListItem(Repository.Major.COMP_SCI, 1, 1, "Diskretne strukture 1"),
-                    CourseListItem(Repository.Major.COMP_SCI, 1, 1, "Uvod u organizaciju i arhitekturu računara 1")
+                    Course(Repository.Major.COMP_SCI, 1, 1, "Opšta astronomija 1", "P101", 'x', DayOfWeek.MONDAY, 0),
+                    Course(Repository.Major.COMP_SCI, 1, 1, "Diskretne strukture 1", "P101", 'x', DayOfWeek.MONDAY, 0),
+                    Course(Repository.Major.COMP_SCI, 1, 1, "Uvod u organizaciju i arhitekturu računara 1", "P101", 'x', DayOfWeek.MONDAY, 0)
                 )
             }
         }

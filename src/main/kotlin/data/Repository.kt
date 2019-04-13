@@ -42,12 +42,12 @@ object Repository {
     val notifications = observableList<Notification>()
     val timetables = observableList<Timetable>()
 
-    val allAvailableCourses = observableList<CourseListItem>()
+    val allAvailableCourses = observableList<Course>()
 
     init {
         // Test podaci
         notifications.addAll((0..10).map { Notification("Obaveštenje $it", "Neki opis") })
-        timetables.add(Timetable())
+        timetables.add(Timetable(listOf(), listOf()))
     }
 
     fun updateCourseList(major: Major) {
