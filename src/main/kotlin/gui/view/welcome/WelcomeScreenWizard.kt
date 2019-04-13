@@ -1,7 +1,6 @@
 package gui.view.welcome
 
 import data.Repository
-import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.control.Button
 import javafx.scene.control.ButtonBar
@@ -12,6 +11,7 @@ import tornadofx.runLater
 
 class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
 
+    // Ovaj ViewModel se koristi u koracima, a ovde je samo zbog dependency injection-a.
     val viewModel: ViewModel by inject()
 
     init {
@@ -43,7 +43,7 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
      */
     class ViewModel : tornadofx.ViewModel() {
         val majorProperty = SimpleObjectProperty<Repository.Major>()
-        val minimalPausePrefProperty = SimpleBooleanProperty(true)
+        val intermediaryPausesProperty = SimpleObjectProperty<Repository.IntermediaryPauses>()
         val timeFramePrefProperty = SimpleObjectProperty<Repository.TimeFramePreference>()
         val arrangementPrefProperty = SimpleObjectProperty<Repository.ArrangementPreference>()
 

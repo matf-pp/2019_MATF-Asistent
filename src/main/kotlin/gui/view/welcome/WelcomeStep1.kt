@@ -11,7 +11,11 @@ class WelcomeStep1 : View("Izbor godine") {
 
     // Formular je kompletan tek kad se izabere svaka od opcija
     override val complete = booleanBinding(
-        viewModel.majorProperty, viewModel.timeFramePrefProperty, viewModel.arrangementPrefProperty) {
+        viewModel.intermediaryPausesProperty,
+        viewModel.majorProperty,
+        viewModel.timeFramePrefProperty,
+        viewModel.arrangementPrefProperty) {
+            this@WelcomeStep1.viewModel.intermediaryPausesProperty.isNotNull.value
             this@WelcomeStep1.viewModel.majorProperty.isNotNull.value &&
             this@WelcomeStep1.viewModel.timeFramePrefProperty.isNotNull.value &&
             this@WelcomeStep1.viewModel.arrangementPrefProperty.isNotNull.value
@@ -23,11 +27,19 @@ class WelcomeStep1 : View("Izbor godine") {
             labelPosition = Orientation.VERTICAL
 
             field("Moj smer je:") {
-                combobox(viewModel.majorProperty, Repository.majors)
+                combobox(viewModel.majorProperty, Repository.majors) {
+                    promptText = "Izaberite smer"
+                }
             }
 
-            field {
-                checkbox("Odgovara mi da mi pauze budu minimalne", viewModel.minimalPausePrefProperty)
+            field("Najviše mi odgovara da:", Orientation.VERTICAL) {
+                togglegroup {
+                    viewModel.intermediaryPausesProperty.bind(selectedValueProperty())
+                    radiobutton("Imam pauzu u toku dana (kako bih stigao/la na ručak, na primer)", value = Repository.IntermediaryPauses.PREFER)
+                    radiobutton("Nemam pauze u toku dana", value = Repository.IntermediaryPauses.AVOID)
+                    radiobutton("Svejedno mi je", value = Repository.IntermediaryPauses.NONE)
+
+                }
             }
 
             field("Najviše mi odgovara da nastava bude:", Orientation.VERTICAL) {

@@ -38,6 +38,10 @@ object Repository {
         EVEN, GROUPED, NONE
     }
 
+    enum class IntermediaryPauses {
+        PREFER, AVOID, NONE
+    }
+
     val majors = observableList(Major.COMP_SCI, Major.MATH, Major.ASTRONOMY)
     val notifications = observableList<Notification>()
     val timetables = observableList<Timetable>()
