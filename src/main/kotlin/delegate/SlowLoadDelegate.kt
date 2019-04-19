@@ -8,21 +8,21 @@ import kotlin.reflect.KProperty
  * olakšavajući komunikaciju između niti.
  *
  */
-class SlowLoadDelegate<T> {
+class SlowLoadDelegate<T: Any> {
 
-    private var value: T? = null
+    private lateinit var value: T
 
     private val initLatch = Latch()
 
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
+    operator fun getValue(thisRef: Any, property: KProperty<*>): T {
         initLatch.await()
-        return value!!
+        return value
     }
 
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+    operator fun setValue(thisRef: Any, property: KProperty<*>, value: T) {
         this.value = value
         initLatch.countDown()
     }
 }
 
-fun <T> slowLoad() = SlowLoadDelegate<T>()
+fun <T: Any> slowLoad() = SlowLoadDelegate<T>()
