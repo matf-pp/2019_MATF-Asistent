@@ -14,6 +14,7 @@ dependencies {
     implementation "no.tornado:tornadofx:1.7.17"
     implementation "org.xerial:sqlite-jdbc:3.27.2.1"
     implementation 'org.optaplanner:optaplanner-core-gwt:7.20.0.Final'
+    compile 'org.slf4j:slf4j-nop:1.7.25'
 
 }
 
