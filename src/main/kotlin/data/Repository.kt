@@ -43,7 +43,7 @@ object Repository {
     val notifications = observableList<Notification>()
     val timetables = observableList<Timetable>()
 
-    val allAvailableCourses = observableList<Course>()
+    val allAvailableCourses = observableList<CourseDef>()
 
     init {
         // Test podaci
@@ -54,7 +54,7 @@ object Repository {
     fun updateCourseList(major: Major) {
         // TODO učitavati keširane podatke iz baze podataka ako su oni prisutni
         allAvailableCourses.clear()
-        fetchCourseListTask(major)
+        fetchCourseListTask()
     }
 
     fun generateTimetables(viewModel: WelcomeScreenWizard.ViewModel) {
