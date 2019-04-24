@@ -2,15 +2,15 @@
 <solver>
     <!-- Definisanje modela -->
     <scanAnnotatedClasses>
-        <packageInclude> scheduler </packageInclude>
     </scanAnnotatedClasses>
 
     <!-- Definisanje funkcije za računanje skora -->
     <scoreDirectorFactory>
-        <!-- Dodati -->
+        <scoreDrl>scheduler/solver/ScoreRulesConfiguration.drl</scoreDrl>
     </scoreDirectorFactory>
 
+    <!-- Za sad korisiti podrazumevani solver -->
     <termination>
-        <secondsSpentLimit> 60 </secondsSpentLimit>
+        <minutesSpentLimit>2</minutesSpentLimit>
     </termination>
 </solver>

@@ -28,4 +28,15 @@ data class Course(
     var assignedDay: Day ?= null
         @PlanningVariable(valueRangeProviderRefs = ["dayRange"])
         get () = field
+
+    fun calculateIntervalBetween(other: Course): Int {
+        val end: Int = this.start + duration
+        val otherEnd: Int = start + duration
+
+        return when {
+            end < other.start -> other.start - end
+            otherEnd < this.start -> this.start - otherEnd
+            else -> -1
+        }
+    }
 }
