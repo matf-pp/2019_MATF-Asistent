@@ -43,6 +43,7 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
      */
     class ViewModel : tornadofx.ViewModel() {
         val majorProperty = SimpleObjectProperty<Repository.Major>()
+        val minorProperty = SimpleObjectProperty<Repository.Minor>()
         val intermediaryPausesProperty = SimpleObjectProperty<Repository.IntermediaryPauses>()
         val timeFramePrefProperty = SimpleObjectProperty<Repository.TimeFramePreference>()
         val arrangementPrefProperty = SimpleObjectProperty<Repository.ArrangementPreference>()

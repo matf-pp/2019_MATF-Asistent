@@ -27,6 +27,22 @@ object Repository {
         }
     }
 
+    enum class Minor {
+        L, M, R, P, S, MA, I, AF, AI;
+
+        override fun toString() = when(this) {
+            L -> "Profesor matematike i računarstva"
+            M -> "Teorijska matematika i primene"
+            R -> "Računrastvo i informatika"
+            P -> "Primenjena matematika"
+            S -> "Statistika, aktuarska matematika i finansijska matematika"
+            I -> "Informatika"
+            MA -> "Astronomija"
+            AF -> "Astrofizika"
+            AI -> "Astroinformatika"
+        }
+    }
+
     enum class TimeFramePreference {
         BEFORE_NOON, NOON, AFTERNOON, NONE
     }
