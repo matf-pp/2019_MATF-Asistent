@@ -3,7 +3,6 @@ package data
 import gui.view.welcome.WelcomeScreenWizard
 import scheduler.Timetable
 import scheduler.generateTimetablesTask
-import scraper.fetchCourseListTask
 import tornadofx.observableList
 
 /** Objekat koji će služiti da se u njemu čuvaju Kolekcije podataka iz različitih izvora, uključujući
@@ -65,12 +64,6 @@ object Repository {
         // Test podaci
         notifications.addAll((0..10).map { Notification("Obaveštenje $it", "Neki opis") })
         timetables.add(Timetable(listOf(), listOf()))
-    }
-
-    fun updateCourseList(major: Major) {
-        // TODO učitavati keširane podatke iz baze podataka ako su oni prisutni
-        allAvailableCourses.clear()
-        fetchCourseListTask()
     }
 
     fun generateTimetables(viewModel: WelcomeScreenWizard.ViewModel) {

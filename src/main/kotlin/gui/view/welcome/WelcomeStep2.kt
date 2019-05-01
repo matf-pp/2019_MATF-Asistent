@@ -9,10 +9,10 @@ import gui.view.welcome.WelcomeScreenWizard.ViewModel
 
 class WelcomeStep2 : View("Izbor kurseva") {
 
-    private val viewModel: ViewModel by inject()
+    private val wizardViewModel: ViewModel by inject()
 
     override val root = vbox {
-        tableview(Repository.allAvailableCourses) {
+        tableview(wizardViewModel.availableCourses) {
             columnResizePolicy = SmartResize.POLICY
 
             // Za objašnjenje, pogledati dokumentaciju za NullSelectionModel
@@ -28,7 +28,7 @@ class WelcomeStep2 : View("Izbor kurseva") {
 
     // Ovo se izvršava kada se pritisne dugme "Sledeće"
     override fun onSave() {
-        Repository.generateTimetables(viewModel)
+        Repository.generateTimetables(wizardViewModel)
         super.onSave()
     }
 }

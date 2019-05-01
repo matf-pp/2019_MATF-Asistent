@@ -2,12 +2,10 @@ package gui.view.welcome
 
 import data.Repository
 import javafx.beans.property.SimpleObjectProperty
+import javafx.collections.transformation.FilteredList
 import javafx.scene.control.Button
 import javafx.scene.control.ButtonBar
-import tornadofx.Wizard
-import tornadofx.enableWhen
-import tornadofx.onChange
-import tornadofx.runLater
+import tornadofx.*
 
 class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
 
@@ -48,10 +46,12 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
         val timeFramePrefProperty = SimpleObjectProperty<Repository.TimeFramePreference>()
         val arrangementPrefProperty = SimpleObjectProperty<Repository.ArrangementPreference>()
 
-        init {
-            // Kada god se promeni izabrani smer, treba ažurirati odgovarajuće kurseve za prikaz
-            majorProperty.onChange {
-                Repository.updateCourseList(it!!)
+        val availableCourses = FilteredList(Repository.allAvailableCourses) {
+            it.minor == minorProperty.value
+        }.apply {
+            // Svaki put kada se promeni modul, potrebno je da se promeni i spisak kurseva
+            minorProperty.onChange {
+                setPredicate { it.minor == minorProperty.value }
             }
         }
     }

@@ -8,7 +8,7 @@ package data
 data class CourseDef(
     var title: String,
     var code: String,
-    var major: Repository.Major,
+    var minor: Repository.Minor,
     var year: Int,
     var semester: Int,
     var lectureWeeklyHours: Int = 2,
