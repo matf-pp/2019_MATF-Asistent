@@ -6,6 +6,7 @@ Ideja projekta je pomoć studentima pri organizaciji vremena. Program učitava r
 Biće korišćen programski jezik Kotlin, i:
 - [TorandoFX](https://tornadofx.io/), biblioteka za grafički interfejs, koja koristi JavaFX u pozadini.
 - [OptaPlanner](https://www.optaplanner.org/), biblioteka za programiranje ograničenja, korišćena za formiranje rasporeda.
+- [Drools](https://www.drools.org/), sistem za upravljanje pravilima, korišćen za definisanje ograničenja
 
 Za kompilaciju je preporučeno razvojno okruženje IntelliJIDEA. Projekat koristi Gradle sistem za kompilaciju. Sve potrebne biblioteke se automatski preuzimaju. Projekat se kompilira i pokreće kao standardni IntelliJIDEA projekat.
 
@@ -13,5 +14,4 @@ Izvršiva distribucija programa je `.jar` datoteka, za čije izvršavanje je pot
 
 ## Članovi tima
 - Olivera Popović,  [popovic-olivera](https://github.com/popovic-olivera)
-- Konstantin Klima, [konstantin-klima](https://github.com/konstantin-klima)
 - Aleksandar Stefanović, [aleksandar-stefanovic](https://github.com/aleksandar-stefanovic)
