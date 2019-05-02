@@ -4,13 +4,20 @@
     <scanAnnotatedClasses>
     </scanAnnotatedClasses>
 
-    <!-- Definisanje funkcije za računanje skora -->
+    <!-- Definisanje funkcije za računanje rezultata -->
     <scoreDirectorFactory>
         <scoreDrl>scheduler/solver/ScoreRulesConfiguration.drl</scoreDrl>
     </scoreDirectorFactory>
 
-    <!-- Za sad korisiti podrazumevani solver -->
+    <!-- Informacije o solveru -->
+    <exhaustiveSearch>
+        <exhaustiveSearchType>BRANCH_AND_BOUND</exhaustiveSearchType>
+        <nodeExplorationType>DEPTH_FIRST</nodeExplorationType>
+    </exhaustiveSearch>
+
     <termination>
-        <minutesSpentLimit>2</minutesSpentLimit>
+        <minutesSpentLimit>1</minutesSpentLimit>
+        <unimprovedMinutesSpentLimit>45</unimprovedMinutesSpentLimit>
     </termination>
+
 </solver>

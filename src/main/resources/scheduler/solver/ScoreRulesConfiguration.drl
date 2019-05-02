@@ -6,50 +6,65 @@ import scheduler.TimetableConstraintConfiguration
 import scheduler.Day
 import data.Course
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder
-import org.kie.api.runtime
-import org.kie.api.runtime
-import org.kie.api.runtime
 
 global HardSoftScoreHolder scoreHolder;
 
 rule "Day conflict"
     when
-        Course(assignedDay != null, assignedDay != dayOfWeek)
+       Course(assignedDay != null, assignedDay.dayName != dayOfWeek)
     then
         scoreHolder.penalize((org.kie.api.runtime.rule.RuleContext) kcontext);
  end
 
  rule "Course conflict"
     when
-        $first: Course(assignedDay != null, $day: dayOfWeek, $title: title, $classrom: classroom)
-        Course(assignedDay != null, $day == dayOfWeek, $title == title, $clasroom: classroom, calculateIntervalBetween($first) < 0)
+        $first: Course(assignedDay != null, $d: dayOfWeek, $id: id)
+        Course(assignedDay != null, $d == dayOfWeek, $id != id, calculateIntervalBetween($first) < 0)
     then
         scoreHolder.penalize((org.kie.api.runtime.rule.RuleContext) kcontext);
  end
 
+ rule "At least one"
+     when
+         Course(assignedDay == null, $title: title, $type: type)
+         not Course(assignedDay != null, $title == title, $type == type)
+     then
+         scoreHolder.penalize((org.kie.api.runtime.rule.RuleContext) kcontext);
+  end
+
  rule "One type"
     when
-        Course(assignedDay != null, $title: title, $type: type)
-        Course(assignedDay != null, $title == title, $type == type)
+        Course(assignedDay != null, $title: title, $type: type, $id: id)
+        Course(assignedDay != null, $id != id, $title == title, $type == type)
     then
         scoreHolder.penalize((org.kie.api.runtime.rule.RuleContext) kcontext);
  end
 
  rule "Room conflict"
     when
-        $first: Course(assignedDay != null, $classroom: classroom)
-        Course(assignedDay != null, calculateIntervalBetween($first) == 0, $classroom != classroom)
+        $first: Course(assignedDay != null, $classroom: classroom, $id: id, $d: assignedDay.dayName)
+        Course(assignedDay != null, $id != id, $d == assignedDay.dayName, calculateIntervalBetween($first) == 0, $classroom != classroom)
     then
         scoreHolder.penalize((org.kie.api.runtime.rule.RuleContext) kcontext);
  end
 
  rule "Minimize breaks"
     when
-        $first: Course(assignedDay != null, $title: title, $classroom: classroom)
-        $second: Course(assignedDay != null, $title != title, $classroom != classroom, calculateIntervalBetween($first)>0)
+        $first: Course(assignedDay != null, $id: id, $day: assignedDay.dayName, $start: start)
+        $second: Course(assignedDay != null, $day == assignedDay.dayName, $id != id, $start2: start, $start > $start2)
     then
         scoreHolder.addSoftConstraintMatch((org.kie.api.runtime.rule.RuleContext) kcontext, - $first.calculateIntervalBetween($second));
  end
 
+rule "AsMany"
+    when
+        $total : Number() from accumulate(
+                 Course(assignedDay == null),
+                 init( int total = 0; ),
+                 action( total += 1; ),
+                 result( new Integer(total)))
+    then
+        scoreHolder.addSoftConstraintMatch((org.kie.api.runtime.rule.RuleContext) kcontext, - (Integer)$total);
+ end
 
 
