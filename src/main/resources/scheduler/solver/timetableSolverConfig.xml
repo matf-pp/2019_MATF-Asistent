@@ -16,8 +16,8 @@
     </exhaustiveSearch>
 
     <termination>
-        <minutesSpentLimit>1</minutesSpentLimit>
-        <unimprovedMinutesSpentLimit>45</unimprovedMinutesSpentLimit>
+        <minutesSpentLimit>2</minutesSpentLimit>
+        <unimprovedSecondsSpentLimit>45</unimprovedSecondsSpentLimit>
     </termination>
 
 </solver>

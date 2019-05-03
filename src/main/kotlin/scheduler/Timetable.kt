@@ -14,8 +14,7 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore
 */
 
 @PlanningSolution
-class Timetable (_courseList: List<Course>, _daysList: List<Day>){
-    constructor() : this(emptyList(), emptyList())
+class Timetable (_courseList: List<Course> = emptyList(), _daysList: List<Day> = emptyList()){
 
     @ConstraintConfigurationProvider
     var constraintConfiguration : TimetableConstraintConfiguration ?= null
