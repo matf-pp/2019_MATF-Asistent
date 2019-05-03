@@ -13,14 +13,21 @@ import scheduler.Day
 data class Course(
     var id: Int = 0, // Potrebno nešto što će biti jedinstveno za svaki objekat, može da bude redni broj?
     var title: String = "",
-    var type: Char = ' ', // Ova promenljiva označava da li su u pitanju vežbe 'v' ili predavanja 'p'
+    var type: Type = Type.LECTURE, // Ova promenljiva označava da li su u pitanju vežbe, predavanja ili praktikum
     var dayOfWeek: String = "", // Potrebno je da ova promenljiva bude tipa String da bi mogla da se poredi sa imenom iz klase Day
-    var classroom: String = "", // Potrebna informacija o zgradi u kojoj se odrzavaja kurs ( 'jag' ili 'trg')
+    var classroom: Classroom = Classroom.TRG, // Potrebna informacija o zgradi u kojoj se odrzavaja kurs ( trg, jagic ili n sale)
     var start: Int = 0,
-    var duration: Int = 3,
-    var selected: Boolean = false
+    var duration: Int = 3
 )
 {
+    enum class Type {
+        LECTURE, EXERCISE, PRACTICUM
+    }
+
+    enum class Classroom {
+        TRG, JAG, N
+    }
+
     var assignedDay: Day ?= null
         @PlanningVariable(valueRangeProviderRefs = ["dayRange"], nullable = true)
         get () = field

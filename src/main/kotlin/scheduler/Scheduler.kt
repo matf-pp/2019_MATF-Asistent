@@ -15,25 +15,25 @@ fun generateTimetablesTask(viewModel: WelcomeScreenWizard.ViewModel) = runAsync 
     val solver : Solver<Timetable> = solverFactory.buildSolver()
 
     val courseList : MutableList<Course> = mutableListOf(
-        Course(1,  "Statistika", 'v', "ponedeljak", "trg", 8, 3, true),
-        Course(2,  "Konstrukcija kompilatora", 'p', "ponedeljak", "trg", 12, 2, true),
-        Course(3,  "Veštačka inteligencija", 'v', "ponedeljak", "trg", 14, 3, true),
-        Course(4,  "Istraživanje podataka 1", 'v', "utorak", "trg", 8, 3, true),
-        Course(5,  "Istraživanje podataka 1", 'v', "utorak", "trg", 11, 3, true),
-        Course(6,  "Veštačka inteligencija", 'p', "utorak", "trg", 11, 2, true),
-        Course(7,  "Veštačka inteligencija", 'p', "utorak", "trg", 14, 2, true),
-        Course(8,  "Veštačka inteligencija", 'v', "utorak", "trg", 13, 3, true),
-        Course(9,  "Programske paradigme", 'p', "sreda", "trg", 10, 2, true),
-        Course(10,  "Programske paradigme", 'p', "sreda", "trg", 12, 2, true),
-        Course(11,  "Statistika", 'p', "sreda", "trg", 15, 2, true),
-        Course(12,  "Statistika", 'p', "sreda", "trg", 17, 2, true),
-        Course(13,  "Programske paradigme", 'v', "četvrtak", "jag", 8, 3, true),
-        Course(14,  "Konstrukcija kompilatora", 'v', "četvrtak", "trg", 8, 3, true),
-        Course(15,  "Statistika", 'v', "četvrtak", "trg", 12, 3, true),
-        Course(16,  "Istraživanje podataka 1", 'p', "četvrtak", "trg", 15, 2, true),
-        Course(17,  "Programske paradigme", 'v', "petak", "trg", 8, 3, true),
-        Course(18,  "Konstrukcija kompilatora", 'v', "petak", "jag", 14, 3, true),
-        Course(19,  "Istraživanje podataka 1", 'v', "petak", "trg", 14, 3, true)
+        Course(1,  "Statistika",  Course.Type.EXERCISE, "ponedeljak", Course.Classroom.TRG, 8, 3),
+        Course(2,  "Konstrukcija kompilatora",Course.Type.LECTURE, "ponedeljak", Course.Classroom.TRG, 12, 2),
+        Course(3,  "Veštačka inteligencija",  Course.Type.EXERCISE, "ponedeljak", Course.Classroom.TRG, 14, 3),
+        Course(4,  "Istraživanje podataka 1",  Course.Type.EXERCISE, "utorak", Course.Classroom.TRG, 8, 3),
+        Course(5,  "Istraživanje podataka 1",  Course.Type.EXERCISE, "utorak", Course.Classroom.TRG, 11, 3),
+        Course(6,  "Veštačka inteligencija",Course.Type.LECTURE, "utorak", Course.Classroom.TRG, 11, 2),
+        Course(7,  "Veštačka inteligencija",Course.Type.LECTURE, "utorak", Course.Classroom.TRG, 14, 2),
+        Course(8,  "Veštačka inteligencija",  Course.Type.EXERCISE, "utorak", Course.Classroom.TRG, 13, 3),
+        Course(9,  "Programske paradigme",Course.Type.LECTURE, "sreda", Course.Classroom.TRG, 10, 2),
+        Course(10,  "Programske paradigme",Course.Type.LECTURE, "sreda", Course.Classroom.TRG, 12, 2),
+        Course(11,  "Statistika",Course.Type.LECTURE, "sreda", Course.Classroom.TRG, 15, 2),
+        Course(12,  "Statistika",Course.Type.LECTURE, "sreda", Course.Classroom.TRG, 17, 2),
+        Course(13,  "Programske paradigme",  Course.Type.EXERCISE, "četvrtak", Course.Classroom.JAG, 8, 3),
+        Course(14,  "Konstrukcija kompilatora",  Course.Type.EXERCISE, "četvrtak", Course.Classroom.TRG, 8, 3),
+        Course(15,  "Statistika",  Course.Type.EXERCISE, "četvrtak", Course.Classroom.TRG, 12, 3),
+        Course(16,  "Istraživanje podataka 1",Course.Type.LECTURE, "četvrtak", Course.Classroom.TRG, 15, 2),
+        Course(17,  "Programske paradigme",  Course.Type.EXERCISE, "petak", Course.Classroom.TRG, 8, 3),
+        Course(18,  "Konstrukcija kompilatora",  Course.Type.EXERCISE, "petak", Course.Classroom.JAG, 14, 3),
+        Course(19,  "Istraživanje podataka 1",  Course.Type.EXERCISE, "petak", Course.Classroom.TRG, 14, 3)
     )
 
     val dayList : MutableList<Day> = mutableListOf()
