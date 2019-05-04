@@ -11,13 +11,13 @@ import scheduler.Day
 
 @PlanningEntity
 data class Course(
-    var id: Int = 0, // Potrebno nešto što će biti jedinstveno za svaki objekat, može da bude redni broj?
     var title: String = "",
     var type: Type = Type.LECTURE, // Ova promenljiva označava da li su u pitanju vežbe, predavanja ili praktikum
     var dayOfWeek: String = "", // Potrebno je da ova promenljiva bude tipa String da bi mogla da se poredi sa imenom iz klase Day
     var classroom: Classroom = Classroom.TRG, // Potrebna informacija o zgradi u kojoj se odrzavaja kurs ( trg, jagic ili n sale)
     var start: Int = 0,
-    var duration: Int = 3
+    var duration: Int = 3,
+    var id: Int = getNextId() // TODO Potrebno nešto što će biti jedinstveno za svaki objekat, da li može hashCode?
 )
 {
     enum class Type {
@@ -45,5 +45,11 @@ data class Course(
 
     override fun toString(): String {
         return "Course(id=$id, title='$title', type=$type, dayOfWeek='$dayOfWeek', assignedDay='$assignedDay', classroom='$classroom', start=$start, duration=$duration)"
+    }
+
+    companion object {
+        private var id = 0
+
+        fun getNextId() = id++
     }
 }
