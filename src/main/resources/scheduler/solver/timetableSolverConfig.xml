@@ -10,14 +10,16 @@
     </scoreDirectorFactory>
 
     <!-- Informacije o solveru -->
-    <exhaustiveSearch>
-        <exhaustiveSearchType>BRANCH_AND_BOUND</exhaustiveSearchType>
-        <nodeExplorationType>DEPTH_FIRST</nodeExplorationType>
-    </exhaustiveSearch>
+    <constructionHeuristic>
+        <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+    </constructionHeuristic>
+
+    <localSearch>
+        <localSearchType>TABU_SEARCH</localSearchType>
+    </localSearch>
 
     <termination>
-        <minutesSpentLimit>2</minutesSpentLimit>
-        <unimprovedSecondsSpentLimit>45</unimprovedSecondsSpentLimit>
+        <minutesSpentLimit>3</minutesSpentLimit>
     </termination>
 
 </solver>

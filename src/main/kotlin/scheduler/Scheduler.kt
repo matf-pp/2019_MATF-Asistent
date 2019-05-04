@@ -14,7 +14,6 @@ fun generateTimetablesTask(viewModel: WelcomeScreenWizard.ViewModel) = runAsync 
     val solver : Solver<Timetable> = solverFactory.buildSolver()
 
     val courseList : MutableList<Course> = mutableListOf(
-        Course("Statistika",  Course.Type.EXERCISE, DayOfWeek.MONDAY, Course.Classroom.TRG, 8, 3),
         Course("Konstrukcija kompilatora",Course.Type.LECTURE, DayOfWeek.MONDAY, Course.Classroom.TRG, 12, 2),
         Course("Veštačka inteligencija",  Course.Type.EXERCISE, DayOfWeek.MONDAY, Course.Classroom.TRG, 14, 3),
         Course("Istraživanje podataka 1",  Course.Type.EXERCISE, DayOfWeek.TUESDAY, Course.Classroom.TRG, 8, 3),
