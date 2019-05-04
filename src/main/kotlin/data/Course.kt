@@ -3,6 +3,7 @@ package data
 import org.optaplanner.core.api.domain.entity.PlanningEntity
 import org.optaplanner.core.api.domain.variable.PlanningVariable
 import scheduler.Day
+import java.time.DayOfWeek
 
 /**
  * Osnovna klasa za čuvanje podataka o odabranim kursevima.
@@ -13,7 +14,7 @@ import scheduler.Day
 data class Course(
     var title: String = "",
     var type: Type = Type.LECTURE, // Ova promenljiva označava da li su u pitanju vežbe, predavanja ili praktikum
-    var dayOfWeek: String = "", // Potrebno je da ova promenljiva bude tipa String da bi mogla da se poredi sa imenom iz klase Day
+    var dayOfWeek: DayOfWeek= DayOfWeek.MONDAY,
     var classroom: Classroom = Classroom.TRG, // Potrebna informacija o zgradi u kojoj se odrzavaja kurs ( trg, jagic ili n sale)
     var start: Int = 0,
     var duration: Int = 3,

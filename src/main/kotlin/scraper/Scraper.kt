@@ -60,24 +60,13 @@ fun fetchCourseListTask() = runAsync {
                 else -> Course.Type.LECTURE
             }
 
-
-            val dayOfWeekString = when (it.first) {
-                DayOfWeek.MONDAY -> "ponedeljak"
-                DayOfWeek.TUESDAY -> "utorak"
-                DayOfWeek.WEDNESDAY -> "sreda"
-                DayOfWeek.THURSDAY -> "četvrak"
-                DayOfWeek.FRIDAY -> "petak"
-
-                else -> ""
-            }
-
             val classroom = when {
                 courseData.classroom.startsWith("ЈАГ") -> Course.Classroom.JAG
                 courseData.classroom.startsWith("Н") -> Course.Classroom.N
                 else -> Course.Classroom.TRG
             }
 
-            Course(courseData.title, type, dayOfWeekString, classroom, courseData.startIndex, courseData.duration)
+            Course(courseData.title, type, it.first, classroom, courseData.startIndex, courseData.duration)
         }.forEach(::println)
 
 }
