@@ -3,6 +3,7 @@ package data
 import gui.view.welcome.WelcomeScreenWizard
 import scheduler.Timetable
 import scheduler.generateTimetablesTask
+import scraper.fetchCourseListTask
 import tornadofx.observableList
 
 /** Objekat koji će služiti da se u njemu čuvaju Kolekcije podataka iz različitih izvora, uključujući
@@ -27,14 +28,14 @@ object Repository {
     }
 
     enum class Minor {
-        L, M, R, P, S, MA, I, AF, AI;
+        L, M, R, N, V, MA, I, AF, AI;
 
         override fun toString() = when(this) {
             L -> "Profesor matematike i računarstva"
             M -> "Teorijska matematika i primene"
             R -> "Računrastvo i informatika"
-            P -> "Primenjena matematika"
-            S -> "Statistika, aktuarska matematika i finansijska matematika"
+            N -> "Primenjena matematika"
+            V -> "Statistika, aktuarska matematika i finansijska matematika"
             I -> "Informatika"
             MA -> "Astronomija"
             AF -> "Astrofizika"
@@ -68,5 +69,10 @@ object Repository {
 
     fun generateTimetables(viewModel: WelcomeScreenWizard.ViewModel) {
         generateTimetablesTask(viewModel)
+    }
+
+    fun updateCourseList(minor: Minor, year: Int) {
+        allAvailableCourses.clear()
+        fetchCourseListTask(minor, year)
     }
 }

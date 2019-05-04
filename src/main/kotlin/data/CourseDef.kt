@@ -5,19 +5,10 @@ package data
  *  (za tu upotrebu, videti [Course]).
  *
  */
-data class CourseDef(
-    var title: String,
-    var code: String,
-    var minor: Repository.Minor,
-    var year: Int,
-    var semester: Int,
-    var lectureWeeklyHours: Int = 2,
-    var exerciseWeeklyHours: Int = 3,
-    var ects: Int = 6,
-    /* TODO: da li bi ovde mogla da postoji informacija o tome ko su predavači na kursu?
-            Ako da: dodati ta polja, ako ne: izbrisati ovaj komentar.
-    */
+data class CourseDef(var title: String, var minor: Repository.Minor, var year: Int) {
+
+    var lecturers = ArrayList<String>()
 
     // Ovo svojstvo služi da se čuva informacija o tome da li je izabran ovaj kurs na listi dostupnih kurseva
     var selected: Boolean = false
-)
+}

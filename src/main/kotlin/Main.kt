@@ -1,7 +1,6 @@
 import gui.CustomStylesheet
 import gui.view.welcome.WelcomeScreenWizard
 import javafx.application.Application
-import scraper.fetchCourseListTask
 import tornadofx.*
 
 
@@ -12,13 +11,7 @@ import tornadofx.*
 /* TODO kontrolisati da li se inicijalno prikazuje Wizard ili MainView, na osnovu toga da li je korisnik
        uneo podatke, ili po prvi put otvara aplikaciju.
  */
-class MatfAsistentApp : App(WelcomeScreenWizard::class, CustomStylesheet::class) {
-    init {
-        // Ovaj zadatak mora da se pokrene tek nakon što nastane nit aplikacije, da bi Platform::runLater poziv
-        // radio ispravno.
-        fetchCourseListTask()
-    }
-}
+class MatfAsistentApp : App(WelcomeScreenWizard::class, CustomStylesheet::class)
 
 fun main(args: Array<String>) {
     Application.launch(MatfAsistentApp::class.java, *args)

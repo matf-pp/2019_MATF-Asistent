@@ -36,8 +36,8 @@ class WelcomeStep1 : View("Izbor godine") {
                     Repository.Minor.L,
                     Repository.Minor.M,
                     Repository.Minor.R,
-                    Repository.Minor.P,
-                    Repository.Minor.S,
+                    Repository.Minor.N,
+                    Repository.Minor.V,
                     Repository.Minor.MA
                 )
             }

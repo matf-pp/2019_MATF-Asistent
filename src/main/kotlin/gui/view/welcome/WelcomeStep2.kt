@@ -12,7 +12,7 @@ class WelcomeStep2 : View("Izbor kurseva") {
     private val wizardViewModel: ViewModel by inject()
 
     override val root = vbox {
-        tableview(wizardViewModel.availableCourses) {
+        tableview(Repository.allAvailableCourses) {
             columnResizePolicy = SmartResize.POLICY
 
             // Za objašnjenje, pogledati dokumentaciju za NullSelectionModel
@@ -20,9 +20,7 @@ class WelcomeStep2 : View("Izbor kurseva") {
 
             column("Izabran", CourseDef::selected).makeEditable()
             column("Godina", CourseDef::year)
-            column("Semestar", CourseDef::semester)
             column("Naziv", CourseDef::title)
-            column("Broj ESPB", CourseDef::ects)
         }
     }
 
