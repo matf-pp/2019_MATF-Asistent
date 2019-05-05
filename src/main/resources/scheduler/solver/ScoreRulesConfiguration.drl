@@ -6,6 +6,7 @@ import scheduler.TimetableConstraintConfiguration
 import scheduler.Day
 import data.Course
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder
+import data.Repository
 
 global HardSoftScoreHolder scoreHolder;
 
@@ -51,12 +52,15 @@ rule "Day conflict"
  rule "Minimize breaks"
     when
         $first: Course(assignedDay != null, $id: id, $day: assignedDay.dayName, $start: start)
-        $second: Course(assignedDay != null, $day == assignedDay.dayName, $id != id, $start2: start, $start > $start2)
+        $second: Course(assignedDay != null, $day == assignedDay.dayName, $id != id, start > $start)
     then
-        scoreHolder.addSoftConstraintMatch((org.kie.api.runtime.rule.RuleContext) kcontext, - $first.calculateIntervalBetween($second));
+        if (Repository.StudentPreference.INSTANCE.getIntermediaryPauses() ==  Repository.IntermediaryPauses.PREFER)
+            scoreHolder.addSoftConstraintMatch((org.kie.api.runtime.rule.RuleContext) kcontext, $first.calculateIntervalBetween($second));
+        else
+            scoreHolder.addSoftConstraintMatch((org.kie.api.runtime.rule.RuleContext) kcontext, - $first.calculateIntervalBetween($second));
  end
 
-rule "AsMany"
+rule "As Many"
     when
         $total : Number() from accumulate(
                  Course(assignedDay == null),

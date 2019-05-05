@@ -24,7 +24,4 @@ class TimetableConstraintConfiguration {
 
     @ConstraintWeight("Room conflict")  // Ako student treba da pređe iz jedne zgrade u drugu potrebno je bar sat vremena razmaka
     var roomConflict: HardSoftScore = HardSoftScore.ofHard(11)
-
-
-    // Dodati odabrane želje studenta
 }

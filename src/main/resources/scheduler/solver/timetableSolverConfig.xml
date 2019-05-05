@@ -15,11 +15,15 @@
     </constructionHeuristic>
 
     <localSearch>
+        <localSearchType>LATE_ACCEPTANCE</localSearchType>
+    </localSearch>
+
+    <localSearch>
         <localSearchType>TABU_SEARCH</localSearchType>
     </localSearch>
 
     <termination>
-        <minutesSpentLimit>3</minutesSpentLimit>
+        <minutesSpentLimit>1</minutesSpentLimit>
     </termination>
 
 </solver>

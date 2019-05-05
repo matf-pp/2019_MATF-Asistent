@@ -28,7 +28,7 @@ fun generateTimetablesTask(courses: List<Course>) = runAsync {
         Course("Konstrukcija kompilatora",  Course.Type.EXERCISE, DayOfWeek.THURSDAY, Course.Classroom.TRG, 8, 3),
         Course("Statistika",  Course.Type.EXERCISE, DayOfWeek.THURSDAY, Course.Classroom.TRG, 12, 3),
         Course("Istraživanje podataka 1",Course.Type.LECTURE, DayOfWeek.THURSDAY, Course.Classroom.TRG, 15, 2),
-        Course("Programske paradigme",  Course.Type.EXERCISE, DayOfWeek.FRIDAY, Course.Classroom.TRG, 8, 3),
+        Course("Programske paradigme",  Course.Type.EXERCISE, DayOfWeek.WEDNESDAY, Course.Classroom.TRG, 12, 3),
         Course("Konstrukcija kompilatora",  Course.Type.EXERCISE, DayOfWeek.FRIDAY, Course.Classroom.JAG, 14, 3),
         Course("Istraživanje podataka 1",  Course.Type.EXERCISE, DayOfWeek.FRIDAY, Course.Classroom.TRG, 14, 3)
     )
