@@ -5,7 +5,7 @@ package data
  *  (za tu upotrebu, videti [Course]).
  *
  */
-data class CourseDef(var title: String, var minor: Repository.Minor, var year: Int) {
+data class CourseDef(var title: String, var minor: Repository.Minor, var year: Repository.YearOfStudy) {
 
     var lecturers = ArrayList<String>()
 

@@ -42,10 +42,6 @@ object Repository {
             AI -> "Astroinformatika"
         }
     }
-
-    enum class TimeFramePreference {
-        BEFORE_NOON, NOON, AFTERNOON, NONE
-    }
     
     enum class ArrangementPreference {
         EVEN, GROUPED, NONE
@@ -55,11 +51,26 @@ object Repository {
         PREFER, AVOID, NONE
     }
 
+    enum class YearOfStudy {
+        FIRST, SECOND, THIRD, FOURTH, MASTERS, DOCTORATE;
+
+        override fun toString() = when (this) {
+            FIRST -> "Prva godina OAS"
+            SECOND -> "Druga godina OAS"
+            THIRD -> "Treća godina OAS"
+            FOURTH -> "Četvrta godina OAS"
+            MASTERS -> "Master studije"
+            DOCTORATE -> "Doktorske studije"
+        }
+    }
+
     val majors = observableList(Major.COMP_SCI, Major.MATH, Major.ASTRONOMY)
     val notifications = observableList<Notification>()
     val timetables = observableList<Timetable>()
 
-    val allAvailableCourses = observableList<CourseDef>()
+    val courseDefs = observableList<CourseDef>()
+
+    val courses = observableList<Course>()
 
     init {
         // Test podaci
@@ -71,8 +82,8 @@ object Repository {
         generateTimetablesTask(viewModel)
     }
 
-    fun updateCourseList(minor: Minor, year: Int) {
-        allAvailableCourses.clear()
+    fun updateCourseList(minor: Minor, year: YearOfStudy) {
+        courseDefs.clear()
         fetchCourseListTask(minor, year)
     }
 }

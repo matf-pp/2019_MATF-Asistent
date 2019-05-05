@@ -13,13 +13,13 @@ class WelcomeStep1 : View("Izbor godine") {
     override val complete = booleanBinding(
         wizardViewModel.majorProperty,
         wizardViewModel.minorProperty,
+        wizardViewModel.yearOfStudyProperty,
         wizardViewModel.intermediaryPausesProperty,
-        wizardViewModel.timeFramePrefProperty,
         wizardViewModel.arrangementPrefProperty) {
             wizardViewModel.majorProperty.isNotNull.value &&
             wizardViewModel.minorProperty.isNotNull.value &&
+            wizardViewModel.yearOfStudyProperty.isNotNull.value &&
             wizardViewModel.intermediaryPausesProperty.isNotNull.value &&
-            wizardViewModel.timeFramePrefProperty.isNotNull.value &&
             wizardViewModel.arrangementPrefProperty.isNotNull.value
     }
 
@@ -76,6 +76,12 @@ class WelcomeStep1 : View("Izbor godine") {
                 }
             }
 
+            field("Moja godina studija je:") {
+                combobox(wizardViewModel.yearOfStudyProperty, enumValues<Repository.YearOfStudy>().toList()) {
+                    promptText = "Izaberite godinu studija"
+                }
+            }
+
             field("Najviše mi odgovara da:", Orientation.VERTICAL) {
                 togglegroup {
                     wizardViewModel.intermediaryPausesProperty.bind(selectedValueProperty())
@@ -83,18 +89,6 @@ class WelcomeStep1 : View("Izbor godine") {
                     radiobutton("Nemam pauze u toku dana", value = Repository.IntermediaryPauses.AVOID)
                     radiobutton("Svejedno mi je", value = Repository.IntermediaryPauses.NONE)
 
-                }
-            }
-
-            field("Najviše mi odgovara da nastava bude:", Orientation.VERTICAL) {
-                // Ažurirati kada (i ako) izađe nova TornadoFX verzija
-                // Videti https://github.com/edvin/tornadofx/issues/956
-                togglegroup {
-                    wizardViewModel.timeFramePrefProperty.bind(selectedValueProperty())
-                    radiobutton("Prepodne", value = Repository.TimeFramePreference.BEFORE_NOON)
-                    radiobutton("U podne", value = Repository.TimeFramePreference.NOON)
-                    radiobutton("Popodne", value = Repository.TimeFramePreference.AFTERNOON)
-                    radiobutton("Svejedno", value = Repository.TimeFramePreference.NONE)
                 }
             }
 

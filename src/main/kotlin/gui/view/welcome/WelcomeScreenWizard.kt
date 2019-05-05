@@ -41,16 +41,19 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
     class ViewModel : tornadofx.ViewModel() {
         val majorProperty = SimpleObjectProperty<Repository.Major>()
         val minorProperty = SimpleObjectProperty<Repository.Minor>()
-        val intermediaryPausesProperty = SimpleObjectProperty<Repository.IntermediaryPauses>()
-        val timeFramePrefProperty = SimpleObjectProperty<Repository.TimeFramePreference>()
-        val arrangementPrefProperty = SimpleObjectProperty<Repository.ArrangementPreference>()
-
+        val intermediaryPausesProperty = SimpleObjectProperty<Repository.IntermediaryPauses>(Repository.IntermediaryPauses.AVOID)
+        val arrangementPrefProperty = SimpleObjectProperty<Repository.ArrangementPreference>(Repository.ArrangementPreference.NONE)
+        val yearOfStudyProperty = SimpleObjectProperty<Repository.YearOfStudy>()
         init {
-            minorProperty.onChange {
-                // Svaki put kada se promeni modul, potrebno je da se promeni i spisak kurseva
-                if (minorProperty.value != null) {
-                    Repository.updateCourseList(minorProperty.value, 3)
-                }
+
+            // Svaki put kada se promeni modul ili godina, potrebno je da se promeni i spisak kurseva
+            minorProperty.onChange { updateCourseList() }
+            yearOfStudyProperty.onChange { updateCourseList() }
+        }
+
+        private fun updateCourseList() {
+            if (minorProperty.value != null && yearOfStudyProperty.value != null) {
+                Repository.updateCourseList(minorProperty.value, yearOfStudyProperty.value)
             }
         }
     }
