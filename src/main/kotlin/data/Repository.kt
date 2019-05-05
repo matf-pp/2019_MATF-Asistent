@@ -1,6 +1,5 @@
 package data
 
-import gui.view.welcome.WelcomeScreenWizard
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import scheduler.Timetable
@@ -66,6 +65,12 @@ object Repository {
         }
     }
 
+    // Objekat kojem može globalno da se pristupi
+    object StudentPreference {
+        var intermediaryPauses: IntermediaryPauses = IntermediaryPauses.AVOID
+        var arrangementPreference: ArrangementPreference = ArrangementPreference.NONE
+    }
+
     val majors = observableList(Major.COMP_SCI, Major.MATH, Major.ASTRONOMY)
     val notifications = observableList<Notification>()
     val timetables = observableList<Timetable>()
@@ -85,7 +90,9 @@ object Repository {
     }
 
     fun generateTimetables(courses: List<Course>, intermediaryPauses: IntermediaryPauses, arrangementPreference: ArrangementPreference) {
-        generateTimetablesTask(courses, intermediaryPauses, arrangementPreference)
+        StudentPreference.intermediaryPauses = intermediaryPauses
+        StudentPreference.arrangementPreference = arrangementPreference
+        generateTimetablesTask(courses)
     }
 
     fun updateCourseList(minor: Minor, year: YearOfStudy) {
