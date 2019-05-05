@@ -5,7 +5,7 @@ import gui.listview.NullSelectionModel
 import gui.widget.TimetableView
 import tornadofx.*
 
-class WelcomeStep3 : View("Izbor rasporeda") {
+class TimetableConfirmDialog : View("Izbor rasporeda") {
 
     override val root = vbox {
         vbox {

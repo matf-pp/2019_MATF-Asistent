@@ -7,7 +7,7 @@ import tornadofx.*
 import gui.view.welcome.WelcomeScreenWizard.ViewModel
 
 
-class WelcomeStep2 : View("Izbor kurseva") {
+class CoursePickingStep : View("Izbor kurseva") {
 
     private val wizardViewModel: ViewModel by inject()
 

@@ -13,9 +13,10 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
 
     init {
         //TODO graphic = ...
-        add(WelcomeStep1::class)
-        add(WelcomeStep2::class)
-        add(WelcomeStep3::class)
+        add(StudentInfoStep::class)
+        add(CoursePickingStep::class)
+        add(LecturerChoiceStep::class)
+        add(TimetableConfirmDialog::class)
 
         // Preimenovanje elemenata na srpski
         stepsTextProperty.value = "Koraci"

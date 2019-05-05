@@ -4,7 +4,7 @@ import data.Repository
 import javafx.geometry.Orientation
 import tornadofx.*
 
-class WelcomeStep1 : View("Izbor godine") {
+class StudentInfoStep : View("Izbor godine") {
 
     // Prosleđen ViewModel objekat iz Wizard-a koji koristi ovaj korak
     private val wizardViewModel: WelcomeScreenWizard.ViewModel by inject()

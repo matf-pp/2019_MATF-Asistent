@@ -107,6 +107,7 @@ fun fetchCourseListTask(minor: Repository.Minor, year: Repository.YearOfStudy) =
 
         // Usput, dodaj ovaj kurs u skup definicija kurseva
         val courseDef = CourseDef(courseData.title, minor, year)
+        courseDef.lecturers.add(CourseDef.Lecturer(it.second.lecturer))
         addCourseDefToRepository(courseDef)
 
         Course(courseData.title, type, it.first, classroom, courseData.startIndex, courseData.duration)
@@ -124,7 +125,8 @@ private fun addCourseDefToRepository(courseDef: CourseDef) {
         val existing = Repository.courseDefs.find { it == courseDef }
 
         if (existing != null) {
-            existing.lecturers.addAll(courseDef.lecturers)
+            // Ako već postoji taj predavač, ne dodavati ga
+            existing.lecturers.addUnique(courseDef.lecturers)
         } else {
             Repository.courseDefs.add(courseDef)
         }
@@ -168,7 +170,12 @@ private fun coursesFromRawData(rawList: List<Element>): Set<CourseData> {
     }.map {
         // Ovo će pretvoriti "sirovo" Triple<Int, Int, Element> u CourseData
         val innerHtml = it.third.selectFirst("small")?.html() ?: it.third.html()
-        val (title, lecturer, classroom) = innerHtml.split("<br>").map { str -> str.trimIndent() }
+        val dataList = innerHtml.split("<br>").map { str -> str.trimIndent() }
+        val title = dataList[0]
+        // Nekada postoji i informacija o grupi ("GR1", "GR2"...), pa ima 4 elementa umesto 3.
+        val lecturer = if (dataList.size == 3) dataList[1] else dataList[2]
+        val classroom = if (dataList.size == 3) dataList[2] else dataList[3]
+
         CourseData(it.first, it.second, title, lecturer, classroom)
     }.fold(mutableSetOf()) { acc, current ->
         // Ovo će spojiti više časova vežbi u jedan čas vežbi
@@ -191,3 +198,12 @@ private fun Element.children(startIndex: Int, endIndex: Int = children().size): 
 private fun forms(vararg indices: Int) = indices.map { "form_${it.toString().padStart(3, '0')}.html" }
 
 private fun forms(indices: IntRange) = forms(*indices.toList().toIntArray())
+
+// Vremenska kompleksnost O(n * m), ali nije problematično za male kolekcije.
+private fun <T> MutableCollection<T>.addUnique(other: Collection<T>) {
+    other.forEach { element ->
+        if (element !in this) {
+            this.add(element)
+        }
+    }
+}
