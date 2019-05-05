@@ -8,6 +8,8 @@ import tornadofx.*
 
 class LecturerChoiceStep: View("Izbor predavača") {
 
+    private val viewModel: WelcomeScreenWizard.ViewModel by inject()
+
     override val root = vbox {
         listview(Repository.courseDefs.filtered(CourseDef::selected)) {
             selectionModel = NullSelectionModel()
@@ -22,6 +24,27 @@ class LecturerChoiceStep: View("Izbor predavača") {
                 }
             }
         }
+    }
+
+    // Ovo se izvršava kada se pritisne dugme "Sledeće"
+    override fun onSave() {
+//TODO
+//        val selectedLecturers = Repository.courseDefs
+//            .flatMap(CourseDef::lecturers)
+//            .filter(CourseDef.Lecturer::selected)
+//            .map(CourseDef.Lecturer::)
+//            .also(::println)
+//
+//        val coursesWithSelectedLecturers = Repository.courses.filter { it.title in selectedLecturers }
+//
+//        println(coursesWithSelectedLecturers)
+
+        Repository.generateTimetables(
+            Repository.courses,
+            viewModel.intermediaryPausesProperty.value,
+            viewModel.arrangementPrefProperty.value
+        )
+        super.onSave()
     }
 
 }

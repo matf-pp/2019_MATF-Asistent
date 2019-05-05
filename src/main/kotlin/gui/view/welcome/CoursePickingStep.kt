@@ -22,10 +22,4 @@ class CoursePickingStep : View("Izbor kurseva") {
             column("Naziv", CourseDef::title)
         }
     }
-
-    // Ovo se izvršava kada se pritisne dugme "Sledeće"
-    override fun onSave() {
-        Repository.generateTimetables(wizardViewModel)
-        super.onSave()
-    }
 }

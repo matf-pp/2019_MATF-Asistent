@@ -84,8 +84,8 @@ object Repository {
         timetables.add(Timetable(listOf(), listOf()))
     }
 
-    fun generateTimetables(viewModel: WelcomeScreenWizard.ViewModel) {
-        generateTimetablesTask(viewModel)
+    fun generateTimetables(courses: List<Course>, intermediaryPauses: IntermediaryPauses, arrangementPreference: ArrangementPreference) {
+        generateTimetablesTask(courses, intermediaryPauses, arrangementPreference)
     }
 
     fun updateCourseList(minor: Minor, year: YearOfStudy) {

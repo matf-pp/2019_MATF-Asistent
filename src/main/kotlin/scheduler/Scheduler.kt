@@ -1,14 +1,14 @@
 package scheduler
 
 import data.Course
-import gui.view.welcome.WelcomeScreenWizard
+import data.Repository
 import org.optaplanner.core.api.solver.Solver
 import org.optaplanner.core.api.solver.SolverFactory
 import tornadofx.runAsync
 import java.time.DayOfWeek
 
 // TODO: odrediti koje parametre treba da prima ova metoda
-fun generateTimetablesTask(viewModel: WelcomeScreenWizard.ViewModel) = runAsync {
+fun generateTimetablesTask(courses: List<Course>, intermediaryPauses: Repository.IntermediaryPauses, arrangementPreference: Repository.ArrangementPreference) = runAsync {
 
     val solverFactory : SolverFactory<Timetable> = SolverFactory.createFromXmlResource("scheduler/solver/timetableSolverConfig.xml")
     val solver : Solver<Timetable> = solverFactory.buildSolver()
