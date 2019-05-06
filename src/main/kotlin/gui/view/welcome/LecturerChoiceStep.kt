@@ -11,15 +11,13 @@ class LecturerChoiceStep: View("Izbor predavača") {
     private val viewModel: WelcomeScreenWizard.ViewModel by inject()
 
     override val root = vbox {
-        listview(Repository.courseDefs.filtered(CourseDef::selected)) {
+        listview(Repository.selectedCourseDefs) {
             selectionModel = NullSelectionModel()
             cellFormat { courseDef ->
-                graphic = cache {
-                    VBox(10.0).apply {
-                        label(courseDef.title)
-                        courseDef.lecturers.forEach {
-                            checkbox(it.name, it.selected.toProperty())
-                        }
+                graphic = VBox(10.0).apply {
+                    label(courseDef.title)
+                    courseDef.lecturers.forEach {
+                        checkbox(it.name, it.selectedProperty)
                     }
                 }
             }
@@ -28,19 +26,24 @@ class LecturerChoiceStep: View("Izbor predavača") {
 
     // Ovo se izvršava kada se pritisne dugme "Sledeće"
     override fun onSave() {
-//TODO
-//        val selectedLecturers = Repository.courseDefs
-//            .flatMap(CourseDef::lecturers)
-//            .filter(CourseDef.Lecturer::selected)
-//            .map(CourseDef.Lecturer::)
-//            .also(::println)
-//
-//        val coursesWithSelectedLecturers = Repository.courses.filter { it.title in selectedLecturers }
-//
-//        println(coursesWithSelectedLecturers)
+
+        val selectedLecturers = Repository.selectedCourseDefs
+            .flatMap { courseDef ->
+                courseDef.lecturers.map { Pair(courseDef.title, it) }
+            }
+            .filter {
+                it.second.selected
+            }
+            .map {
+                Pair(it.first, it.second.name)
+            }
+
+        val coursesWithSelectedLecturers = Repository.courses.filter { course ->
+            selectedLecturers.any { it.first == course.title && it.second == course.lecturer }
+        }
 
         Repository.generateTimetables(
-            Repository.courses,
+            coursesWithSelectedLecturers,
             viewModel.intermediaryPausesProperty.value,
             viewModel.arrangementPrefProperty.value
         )

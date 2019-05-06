@@ -18,6 +18,7 @@ data class Course(
     var classroom: Classroom = Classroom.TRG, // Potrebna informacija o zgradi u kojoj se odrzavaja kurs ( trg, jagic ili n sale)
     var start: Int = 0,
     var duration: Int = 3,
+    var lecturer: String = "",
     var id: Int = getNextId() // TODO Potrebno nešto što će biti jedinstveno za svaki objekat, da li može hashCode?
 )
 {

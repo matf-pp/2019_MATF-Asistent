@@ -2,6 +2,7 @@ package data
 
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
+import javafx.collections.transformation.FilteredList
 import scheduler.Timetable
 import scheduler.generateTimetablesTask
 import scraper.fetchCourseListTask
@@ -77,9 +78,10 @@ object Repository {
 
     // Potreban je ekstraktor da bi se reagovalo na promenu svojstva unutar CourseDef
     val courseDefs: ObservableList<CourseDef> = FXCollections.observableArrayList<CourseDef> {
-        arrayOf(it.selectedProperty)
+        arrayOf(it.selectedProperty, it.lecturers)
     }
 
+    val selectedCourseDefs: FilteredList<CourseDef> = courseDefs.filtered(CourseDef::selected)
 
     val courses = observableList<Course>()
 

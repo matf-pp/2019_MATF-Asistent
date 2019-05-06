@@ -1,5 +1,6 @@
 package data
 
+import javafx.beans.property.ObjectProperty
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import tornadofx.getProperty
@@ -12,7 +13,15 @@ import tornadofx.property
  */
 data class CourseDef(var title: String, var minor: Repository.Minor, var year: Repository.YearOfStudy) {
 
-    data class Lecturer(var name: String, var selected: Boolean = true)
+    class Lecturer(var name: String, selected: Boolean = true) {
+
+        var selected: Boolean by property(selected)
+        val selectedProperty: ObjectProperty<Boolean> = getProperty(Lecturer::selected)
+
+        override fun toString(): String {
+            return "Lecturer(name='$name', selected=$selected)"
+        }
+    }
 
     var lecturers: ObservableList<Lecturer> = FXCollections.observableArrayList<Lecturer>()
 

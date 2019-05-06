@@ -107,10 +107,10 @@ fun fetchCourseListTask(minor: Repository.Minor, year: Repository.YearOfStudy) =
 
         // Usput, dodaj ovaj kurs u skup definicija kurseva
         val courseDef = CourseDef(courseData.title, minor, year)
-        courseDef.lecturers.add(CourseDef.Lecturer(it.second.lecturer))
+        courseDef.lecturers.add(CourseDef.Lecturer(courseData.lecturer))
         addCourseDefToRepository(courseDef)
 
-        Course(courseData.title, type, it.first, classroom, courseData.startIndex, courseData.duration)
+        Course(courseData.title, type, it.first, classroom, courseData.startIndex, courseData.duration, courseData.lecturer)
     }.let { list ->
         runLater {
             Repository.courses.clear()
@@ -200,9 +200,9 @@ private fun forms(vararg indices: Int) = indices.map { "form_${it.toString().pad
 private fun forms(indices: IntRange) = forms(*indices.toList().toIntArray())
 
 // Vremenska kompleksnost O(n * m), ali nije problematično za male kolekcije.
-private fun <T> MutableCollection<T>.addUnique(other: Collection<T>) {
+private fun  MutableCollection<CourseDef.Lecturer>.addUnique(other: Collection<CourseDef.Lecturer>) {
     other.forEach { element ->
-        if (element !in this) {
+        if (this.find { it.name == element.name } == null) {
             this.add(element)
         }
     }
