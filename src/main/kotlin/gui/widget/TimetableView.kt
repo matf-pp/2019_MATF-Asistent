@@ -110,11 +110,13 @@ class TimetableView(timetable: ObservableValue<Timetable>) : GridPane() {
     }
 
     private fun setTimetable(timetable: Timetable?) {
+
+        this.clear()
+
         if (timetable == null) {
             return
         }
 
-        this.clear()
 
         addHeaders()
 
