@@ -155,7 +155,11 @@ class TimetableView(timetable: ObservableValue<Timetable>) : GridPane() {
 
                     }
                     style {
-                        backgroundColor = multi(Color.WHITE)
+                        backgroundColor = if (course.type == Course.Type.LECTURE) {
+                            multi(course.getColor())
+                        } else {
+                            multi(course.getColor().brighter())
+                        }
                     }
                     useMaxWidth = true
                     gridpaneConstraints {

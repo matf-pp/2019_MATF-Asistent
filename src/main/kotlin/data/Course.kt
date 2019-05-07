@@ -1,8 +1,10 @@
 package data
 
+import javafx.scene.paint.Color
 import org.optaplanner.core.api.domain.entity.PlanningEntity
 import org.optaplanner.core.api.domain.variable.PlanningVariable
 import scheduler.Day
+import java.lang.Math.abs
 import java.time.DayOfWeek
 
 /**
@@ -44,6 +46,18 @@ data class Course(
             otherEnd <= this.start -> this.start - otherEnd
             else -> -1
         }
+    }
+
+    fun getColor(): Color {
+        var seed = title.hashCode()
+
+        val red = abs(seed % 256)
+        seed /= 256
+        val green = abs(seed % 256)
+        seed /= 256
+        val blue = abs(seed % 256)
+
+        return Color.rgb(red, green, blue).desaturate().brighter()
     }
 
     override fun toString(): String {
