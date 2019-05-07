@@ -110,7 +110,16 @@ fun fetchCourseListTask(minor: Repository.Minor, year: Repository.YearOfStudy) =
         courseDef.lecturers.add(CourseDef.Lecturer(courseData.lecturer))
         addCourseDefToRepository(courseDef)
 
-        Course(courseData.title, type, it.first, classroom, courseData.startIndex, courseData.duration, courseData.lecturer)
+        Course(
+            courseData.title,
+            type,
+            it.first,
+            classroom,
+            courseData.classroom,
+            courseData.startIndex,
+            courseData.duration,
+            courseData.lecturer
+        )
     }.let { list ->
         runLater {
             Repository.courses.clear()

@@ -1,5 +1,6 @@
 package data
 
+import javafx.beans.property.SimpleObjectProperty
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.collections.transformation.FilteredList
@@ -74,7 +75,15 @@ object Repository {
 
     val majors = observableList(Major.COMP_SCI, Major.MATH, Major.ASTRONOMY)
     val notifications = observableList<Notification>()
-    val timetables = observableList<Timetable>()
+
+    var bestTimetableProperty = SimpleObjectProperty<Timetable>()
+    var bestTimetable: Timetable
+        get() {
+            return bestTimetableProperty.value
+        }
+        set(value) {
+            bestTimetableProperty.value = value
+        }
 
     // Potreban je ekstraktor da bi se reagovalo na promenu svojstva unutar CourseDef
     val courseDefs: ObservableList<CourseDef> = FXCollections.observableArrayList<CourseDef> {
@@ -84,12 +93,6 @@ object Repository {
     val selectedCourseDefs: FilteredList<CourseDef> = courseDefs.filtered(CourseDef::selected)
 
     val courses = observableList<Course>()
-
-    init {
-        // Test podaci
-        notifications.addAll((0..10).map { Notification("Obaveštenje $it", "Neki opis") })
-        timetables.add(Timetable(listOf(), listOf()))
-    }
 
     fun generateTimetables(courses: List<Course>, intermediaryPauses: IntermediaryPauses, arrangementPreference: ArrangementPreference) {
         StudentPreference.intermediaryPauses = intermediaryPauses

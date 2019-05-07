@@ -1,23 +1,14 @@
 package gui.view.welcome
 
 import data.Repository
-import gui.listview.NullSelectionModel
 import gui.widget.TimetableView
-import tornadofx.*
+import tornadofx.View
+import tornadofx.vbox
 
-class TimetableConfirmDialog : View("Izbor rasporeda") {
+class TimetableConfirmDialog : View("Potvrda rasporeda") {
 
     override val root = vbox {
-        vbox {
-            listview(Repository.timetables) {
-                selectionModel = NullSelectionModel()
-                cellFormat {
-                    graphic = cache {
-                        TimetableView(it)
-                    }
-                }
-            }
-        }
+        add(TimetableView(Repository.bestTimetableProperty))
     }
 
 }

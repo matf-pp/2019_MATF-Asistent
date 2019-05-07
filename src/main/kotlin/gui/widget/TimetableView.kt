@@ -1,79 +1,188 @@
 package gui.widget
 
+import data.Course
+import javafx.beans.value.ObservableValue
 import javafx.geometry.Pos
-import javafx.scene.layout.GridPane
-import javafx.scene.layout.Pane
-import javafx.scene.layout.Priority
-import javafx.scene.layout.VBox
+import javafx.scene.layout.*
 import javafx.scene.paint.Color
+import javafx.scene.text.TextAlignment
 import scheduler.Timetable
 import tornadofx.*
+import java.lang.IllegalStateException
 import java.text.DecimalFormat
+import java.time.DayOfWeek
 
-class TimetableView(timetable: Timetable) : VBox() {
+class TimetableView(timetable: ObservableValue<Timetable>) : GridPane() {
 
     init {
-        gridpane {
 
-            style {
-                // Ivice su ostvarene tako što tabela ima određenu boju, i ta boja se prikazuje
-                // jedino na margini i između vrsta i kolona.
-                backgroundColor = multi(Color.DARKGRAY)
-                val borderThickness = 2.px
-                vgap = borderThickness
-                hgap = borderThickness
-                padding = box(borderThickness)
-            }
+        style {
+            // Ivice su ostvarene tako što tabela ima određenu boju, i ta boja se prikazuje
+            // jedino na margini i između vrsta i kolona.
+            backgroundColor = multi(Color.DARKGRAY)
+            val borderThickness = 2.px
+            vgap = borderThickness
+            hgap = borderThickness
+            padding = box(borderThickness)
+        }
 
-            addHeaders()
+        // Prva kolona (sa imenima radnih dana) treba da bude fiksirane širine
+        constraintsForColumn(0).apply {
+            minWidth = USE_PREF_SIZE
+            prefWidth = 50.0
+            maxWidth = USE_PREF_SIZE
+            isFillWidth = true
+        }
 
-            for (i in 1..5) {
-                row {
-                    for (j in 1..13) {
-                        pane {
-                            style {
-                                backgroundColor = multi(Color.WHITE)
-                            }
-                        }
-                    }
-                }
-            }
+        setTimetable(timetable.value)
+
+        timetable.onChange {
+            setTimetable(it)
         }
     }
 
 
     private fun GridPane.addHeaders() {
-        addColumn(0, *(arrayOf("", "PON", "UTO", "SRE", "ČET", "PET").map { DayPaneCell(it) }.toTypedArray()))
+        pane {
+            style {
+                backgroundColor = multi(Color.WHITE)
+            }
 
-        row {
-            for (i in 1..13) {
-                stackpane {
-                    alignment = Pos.CENTER
-                    style {
-                        backgroundColor = multi(Color.WHITE)
-                    }
+            gridpaneConstraints {
+                columnRowIndex(0, 0)
+            }
+        }
 
-                    gridpaneConstraints {
-                        hGrow = Priority.ALWAYS
-                    }
-
-                    val df = DecimalFormat("##")
-
-                    label("${df.format(7+i)}:15 - ${df.format(7+i+1)}:00")
+        for (i in 1..13) {
+            stackpane {
+                alignment = Pos.CENTER
+                style {
+                    backgroundColor = multi(Color.WHITE)
                 }
+
+                gridpaneConstraints {
+                    hGrow = Priority.ALWAYS
+                    columnRowIndex(i, 0)
+
+                }
+
+                val df = DecimalFormat("##")
+
+                label("${df.format(7+i)}:15 - ${df.format(7+i+1)}:00")
             }
         }
     }
 
-    class DayPaneCell(day: String) : Pane() {
+    class DayPaneCell(day: DayOfWeek) : StackPane() {
         init {
-            label(day)
+
+            alignment = Pos.CENTER
+            paddingAll = 5
+
+            val text = when (day) {
+                DayOfWeek.MONDAY -> "PON"
+                DayOfWeek.TUESDAY -> "UTO"
+                DayOfWeek.WEDNESDAY -> "SRE"
+                DayOfWeek.THURSDAY -> "ČET"
+                DayOfWeek.FRIDAY -> "PET"
+                else -> throw IllegalStateException()
+            }
+
+            label(text) {
+                textAlignment = TextAlignment.CENTER
+            }
 
             style {
                 backgroundColor = multi(Color.WHITE)
                 fontSize = 16.px
             }
+
+            gridpaneConstraints {
+                columnRowIndex(0, day.value)
+            }
         }
+    }
+
+    private fun setTimetable(timetable: Timetable?) {
+        if (timetable == null) {
+            return
+        }
+
+        this.clear()
+
+        addHeaders()
+
+        val courseListsByDays = timetable.courseList.groupBy(Course::dayOfWeek)
+
+
+        courseListsByDays.forEach { (day, courseList: List<Course>) ->
+
+            add(DayPaneCell(day))
+
+            var startIndex = 8
+
+            courseList.filter { it.assignedDay != null }.forEach { course ->
+
+                while (startIndex < course.start) {
+                    pane {
+                        style {
+                            backgroundColor = multi(Color.LIGHTGRAY)
+                        }
+
+                        gridpaneConstraints {
+                            columnRowIndex(startIndex - 7, day.value)
+                        }
+                    }
+                    startIndex++
+                }
+
+                vbox {
+                    paddingAll = 10
+                    alignment = Pos.CENTER
+
+                    label(course.title) {
+                        isWrapText = true
+                        textAlignment = TextAlignment.CENTER
+                    }
+                    label(course.lecturer) {
+                        isWrapText = true
+                        textAlignment = TextAlignment.CENTER
+
+                    }
+                    label(course.classroomText) {
+                        isWrapText = true
+                        textAlignment = TextAlignment.CENTER
+
+                    }
+                    style {
+                        backgroundColor = multi(Color.WHITE)
+                    }
+                    useMaxWidth = true
+                    gridpaneConstraints {
+                        columnSpan = course.duration
+                        columnRowIndex(startIndex - 7, day.value)
+                    }
+                }
+
+                startIndex += course.duration
+            }
+
+            // Popuniti ostatak dana sa praznim poljima
+            while (startIndex <= 20) {
+                pane {
+                    style {
+                        backgroundColor = multi(Color.LIGHTGRAY)
+                    }
+
+                    gridpaneConstraints {
+                        columnRowIndex(startIndex - 7, day.value)
+                    }
+                }
+                startIndex++
+            }
+        }
+
+
     }
 
 }

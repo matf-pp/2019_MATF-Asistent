@@ -16,6 +16,7 @@ data class Course(
     var type: Type = Type.LECTURE, // Ova promenljiva označava da li su u pitanju vežbe, predavanja ili praktikum
     var dayOfWeek: DayOfWeek= DayOfWeek.MONDAY,
     var classroom: Classroom = Classroom.TRG, // Potrebna informacija o zgradi u kojoj se odrzavaja kurs ( trg, jagic ili n sale)
+    var classroomText: String = "", // Naziv kabineta
     var start: Int = 0,
     var duration: Int = 3,
     var lecturer: String = "",
