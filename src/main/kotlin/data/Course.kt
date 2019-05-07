@@ -4,8 +4,10 @@ import javafx.scene.paint.Color
 import org.optaplanner.core.api.domain.entity.PlanningEntity
 import org.optaplanner.core.api.domain.variable.PlanningVariable
 import scheduler.Day
+import tornadofx.*
 import java.lang.Math.abs
 import java.time.DayOfWeek
+import javax.json.JsonObject
 
 /**
  * Osnovna klasa za čuvanje podataka o odabranim kursevima.
@@ -23,7 +25,7 @@ data class Course(
     var duration: Int = 3,
     var lecturer: String = "",
     var id: Int = getNextId()
-)
+) : JsonModel
 {
     enum class Type {
         LECTURE, EXERCISE, PRACTICUM
@@ -58,6 +60,39 @@ data class Course(
         val blue = abs(seed % 256)
 
         return Color.rgb(red, green, blue).desaturate().brighter()
+    }
+
+    override fun toJSON(json: JsonBuilder) {
+        with(json) {
+            add("title", title)
+            add("type", type.ordinal)
+            add("dayOfWeek", dayOfWeek.value)
+            add("classroom", classroom.ordinal)
+            add("classroomText", classroomText)
+            add("start", start)
+            add("duration", duration)
+            add("lecturer", lecturer)
+            add("id", id)
+            add("assignedDay", assignedDay?.dayName?.value)
+        }
+    }
+
+    override fun updateModel(json: JsonObject) {
+
+        // NullPointerException se propagira i obrađuje na drugom mestu
+        with(json) {
+            title = string("title")!!
+            type = Type.values()[int("type")!!]
+            dayOfWeek = DayOfWeek.of(int("dayOfWeek")!!)
+            classroom = Classroom.values()[int("classroom")!!]
+            classroomText = string("classroomText")!!
+            start = int("start")!!
+            duration = int("duration")!!
+            lecturer = string("lecturer")!!
+            id = int("id")!!
+            assignedDay = int("assignedDay")?.let { Day(DayOfWeek.of(it)) }
+        }
+
     }
 
     override fun toString(): String {

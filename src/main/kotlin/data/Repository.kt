@@ -1,5 +1,6 @@
 package data
 
+import gui.view.welcome.WelcomeScreenWizard
 import javafx.beans.property.SimpleObjectProperty
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
@@ -7,7 +8,10 @@ import javafx.collections.transformation.FilteredList
 import scheduler.Timetable
 import scheduler.generateTimetablesTask
 import scraper.fetchCourseListTask
-import tornadofx.observableList
+import tornadofx.*
+import java.io.File
+import java.io.FileNotFoundException
+import javax.json.Json
 
 /** Objekat koji će služiti da se u njemu čuvaju Kolekcije podataka iz različitih izvora, uključujući
  *  podatke koje generiše korisnik, podatke sa mreže, i podatke iz baze podataka.
@@ -68,7 +72,13 @@ object Repository {
 
     val majors = observableList(Major.COMP_SCI, Major.MATH, Major.ASTRONOMY)
 
-    var bestTimetableProperty = SimpleObjectProperty<Timetable>()
+    var bestTimetableProperty = SimpleObjectProperty<Timetable>().apply {
+        onChange {
+            if (it != null) {
+                saveToSavefile(it)
+            }
+        }
+    }
     var bestTimetable: Timetable?
         get() {
             return bestTimetableProperty.value
@@ -94,5 +104,37 @@ object Repository {
     fun updateCourseList(minor: Minor, year: YearOfStudy) {
         courseDefs.clear()
         fetchCourseListTask(minor, year)
+    }
+
+    fun loadFromSavefile() = runAsync {
+
+        try {
+            val file = File("savefile.json")
+
+            val jsonReader = Json.createReader(file.inputStream().buffered())
+
+            val jsonObject = jsonReader.readObject()
+
+            val timetable = Timetable()
+
+            runLater {
+                timetable.updateModel(jsonObject)
+                bestTimetable = timetable
+            }
+
+        } catch (e: Exception) {
+            if (e !is FileNotFoundException) {
+                e.printStackTrace()
+            }
+            ui {
+                find<WelcomeScreenWizard>().openModal()
+            }
+        }
+    }
+
+    private fun saveToSavefile(timetable: Timetable) = runAsync {
+
+        File("savefile.json").writeText(timetable.toJSON().toPrettyString())
+
     }
 }

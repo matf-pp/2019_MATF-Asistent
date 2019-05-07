@@ -7,7 +7,7 @@ import java.time.DayOfWeek
  * Ovo će biti klasa koju planer neće moći da menja tj. da dodeljuje satima kurseve
  */
 
-class Day (val dayName: DayOfWeek) : Serializable {
+data class Day (var dayName: DayOfWeek = DayOfWeek.MONDAY) : Serializable {
     override fun toString(): String {
        return when (dayName) {
            DayOfWeek.MONDAY -> "ponedeljak"
