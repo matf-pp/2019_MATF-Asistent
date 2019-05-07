@@ -69,7 +69,7 @@ object Repository {
     val majors = observableList(Major.COMP_SCI, Major.MATH, Major.ASTRONOMY)
 
     var bestTimetableProperty = SimpleObjectProperty<Timetable>()
-    var bestTimetable: Timetable
+    var bestTimetable: Timetable?
         get() {
             return bestTimetableProperty.value
         }

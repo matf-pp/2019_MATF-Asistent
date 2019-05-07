@@ -1,6 +1,7 @@
 package gui.view.welcome
 
 import data.Repository
+import javafx.beans.binding.BooleanBinding
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.control.Button
 import javafx.scene.control.ButtonBar
@@ -22,7 +23,7 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
         backButtonTextProperty.value = "Predhodno"
         nextButtonTextProperty.value = "Sledeće"
         cancelButtonTextProperty.value = "Otkaži"
-        finishButtonTextProperty.value = "Gotovo"
+        finishButtonTextProperty.value = "Potvrdi raspored"
 
         // Ručno ispravljanje baga (ukloniti kada izađe sledeća verzija TornadoFX-a)
         // (videti https://github.com/edvin/tornadofx/commit/1e8fdc7158a270fe73ada2cac84d5530b97e8823)
@@ -56,4 +57,6 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
             }
         }
     }
+
+    override val canFinish: BooleanBinding = Repository.bestTimetableProperty.isNotNull
 }

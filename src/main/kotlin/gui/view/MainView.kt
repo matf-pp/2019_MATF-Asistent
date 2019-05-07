@@ -1,69 +1,24 @@
 package gui.view
 
 import data.Repository
-import javafx.geometry.Pos
-import javafx.scene.layout.*
-import javafx.scene.paint.Color
-import javafx.scene.text.FontWeight
-import tornadofx.*
+import gui.view.welcome.WelcomeScreenWizard
+import gui.widget.TimetableView
+import tornadofx.View
+import tornadofx.runLater
+import tornadofx.vbox
 
 class MainView: View("MatfAsistent") {
-    override val root = borderpane {
-        prefWidth = 800.0
-        prefHeight = 600.0
 
-        left {
-            vbox(10) {
-                paddingAll = 10
-                style {
-                    border = Border(
-                        BorderStroke(
-                            Color.BLACK,
-                            BorderStrokeStyle.SOLID,
-                            CornerRadii(0.0),
-                            BorderWidths.DEFAULT
-                        )
-                    )
-                }
-                alignment = Pos.CENTER
-                label("Navigacija")
-
-                (0..5).forEach {
-                    button("Dugme $it")
-                }
+    init {
+        runLater {
+            if (Repository.bestTimetable == null) {
+                find<WelcomeScreenWizard>().openModal()
             }
         }
+    }
 
-        center {
-            vbox {
-                stackpane {
-                    maxWidth = Double.MAX_VALUE
-                    prefHeight = 300.0
-                    style {
-                        border = Border(
-                            BorderStroke(
-                                Color.BLACK,
-                                BorderStrokeStyle.SOLID,
-                                CornerRadii(0.0),
-                                BorderWidths.DEFAULT
-                            )
-                        )
-                    }
-
-                    label("Raspored")
-                }
-                style {
-                    border = Border(
-                        BorderStroke(
-                            Color.BLACK,
-                            BorderStrokeStyle.SOLID,
-                            CornerRadii(0.0),
-                            BorderWidths.DEFAULT
-                        )
-                    )
-                }
-                label("Sadržaj")
-            }
-        }
+    override val root = vbox {
+        setPrefSize(900.0, 600.0)
+        add(TimetableView(Repository.bestTimetableProperty))
     }
 }

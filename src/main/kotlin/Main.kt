@@ -1,17 +1,13 @@
 import gui.CustomStylesheet
-import gui.view.welcome.WelcomeScreenWizard
+import gui.view.MainView
 import javafx.application.Application
-import tornadofx.*
+import tornadofx.App
 
 
 /** MatfAsisentApp nasleđuje klasu App (iz biblioteke TornadoFX) koja nasleđuje javafx.application.Application.
  *  Main funkcija poziva Application::launch na klasičan JavaFX način.
  */
-
-/* TODO kontrolisati da li se inicijalno prikazuje Wizard ili MainView, na osnovu toga da li je korisnik
-       uneo podatke, ili po prvi put otvara aplikaciju.
- */
-class MatfAsistentApp : App(WelcomeScreenWizard::class, CustomStylesheet::class)
+class MatfAsistentApp : App(MainView::class, CustomStylesheet::class)
 
 fun main(args: Array<String>) {
     Application.launch(MatfAsistentApp::class.java, *args)
