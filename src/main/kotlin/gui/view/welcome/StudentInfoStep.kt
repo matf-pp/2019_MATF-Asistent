@@ -57,10 +57,6 @@ class StudentInfoStep : View("Izbor godine") {
 
     override val root = form {
 
-        // Kada se ovde postavi veličina, ona će se primenjivati na ceo Wizard i njegove korake
-        // (ovo se radi zbog toga što nije moguće postaviti veličinu Wizard prozora direktno
-        setPrefSize(900.0, 600.0)
-
         fieldset {
             this@fieldset.spacing = 30.0
             labelPosition = Orientation.VERTICAL

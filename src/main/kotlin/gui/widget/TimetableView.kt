@@ -16,6 +16,12 @@ class TimetableView(timetable: ObservableValue<Timetable>) : GridPane() {
 
     init {
 
+        minWidth = Region.USE_PREF_SIZE
+        prefWidth = 1100.0
+
+        minHeight = Region.USE_PREF_SIZE
+        prefHeight = 400.0
+
         style {
             // Ivice su ostvarene tako što tabela ima određenu boju, i ta boja se prikazuje
             // jedino na margini i između vrsta i kolona.
