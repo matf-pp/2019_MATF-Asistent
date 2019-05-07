@@ -12,7 +12,6 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
     val viewModel: ViewModel by inject()
 
     init {
-        //TODO graphic = ...
         add(StudentInfoStep::class)
         add(CoursePickingStep::class)
         add(LecturerChoiceStep::class)
@@ -43,7 +42,6 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
         val majorProperty = SimpleObjectProperty<Repository.Major>()
         val minorProperty = SimpleObjectProperty<Repository.Minor>()
         val intermediaryPausesProperty = SimpleObjectProperty<Repository.IntermediaryPauses>(Repository.IntermediaryPauses.AVOID)
-        val arrangementPrefProperty = SimpleObjectProperty<Repository.ArrangementPreference>(Repository.ArrangementPreference.NONE)
         val yearOfStudyProperty = SimpleObjectProperty<Repository.YearOfStudy>()
         init {
 

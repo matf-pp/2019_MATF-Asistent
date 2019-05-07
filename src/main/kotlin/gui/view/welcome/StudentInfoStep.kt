@@ -14,19 +14,17 @@ class StudentInfoStep : View("Izbor godine") {
         wizardViewModel.majorProperty,
         wizardViewModel.minorProperty,
         wizardViewModel.yearOfStudyProperty,
-        wizardViewModel.intermediaryPausesProperty,
-        wizardViewModel.arrangementPrefProperty) {
+        wizardViewModel.intermediaryPausesProperty) {
             wizardViewModel.majorProperty.isNotNull.value &&
             wizardViewModel.minorProperty.isNotNull.value &&
             wizardViewModel.yearOfStudyProperty.isNotNull.value &&
-            wizardViewModel.intermediaryPausesProperty.isNotNull.value &&
-            wizardViewModel.arrangementPrefProperty.isNotNull.value
+            wizardViewModel.intermediaryPausesProperty.isNotNull.value
     }
 
     private val minorsAvailable = objectBinding(wizardViewModel.majorProperty) {
         when (wizardViewModel.majorProperty.value) {
             Repository.Major.COMP_SCI -> {
-                //Takođe, ako je smer Informatika, modul je obavezno I
+                // Ako je smer Informatika, modul je obavezno I
                 wizardViewModel.minorProperty.value = Repository.Minor.I
                 observableList(Repository.Minor.I)
             }
@@ -37,16 +35,14 @@ class StudentInfoStep : View("Izbor godine") {
                     Repository.Minor.M,
                     Repository.Minor.R,
                     Repository.Minor.N,
-                    Repository.Minor.V,
-                    Repository.Minor.MA
+                    Repository.Minor.V
                 )
             }
 
             Repository.Major.ASTRONOMY -> {
-                observableList(
-                    Repository.Minor.AF,
-                    Repository.Minor.AI
-                )
+                // Ako je smer Astronomija, modul je obavezno AI (jedini podržan modul)
+                wizardViewModel.minorProperty.value = Repository.Minor.AI
+                observableList(Repository.Minor.AI)
             }
 
             null -> observableList()
@@ -54,10 +50,17 @@ class StudentInfoStep : View("Izbor godine") {
     }
 
     private val minorsPickerDisabled = booleanBinding(wizardViewModel.majorProperty) {
-        wizardViewModel.majorProperty.value == Repository.Major.COMP_SCI
+        wizardViewModel.majorProperty.value == Repository.Major.COMP_SCI ||
+        wizardViewModel.majorProperty.value == Repository.Major.ASTRONOMY ||
+        wizardViewModel.majorProperty.value == null
     }
 
     override val root = form {
+
+        // Kada se ovde postavi veličina, ona će se primenjivati na ceo Wizard i njegove korake
+        // (ovo se radi zbog toga što nije moguće postaviti veličinu Wizard prozora direktno
+        setPrefSize(900.0, 600.0)
+
         fieldset {
             this@fieldset.spacing = 30.0
             labelPosition = Orientation.VERTICAL
@@ -86,18 +89,9 @@ class StudentInfoStep : View("Izbor godine") {
                 togglegroup {
                     wizardViewModel.intermediaryPausesProperty.bind(selectedValueProperty())
                     radiobutton("Imam pauzu u toku dana (kako bih stigao/la na ručak, na primer)", value = Repository.IntermediaryPauses.PREFER)
-                    radiobutton("Nemam pauze u toku dana", value = Repository.IntermediaryPauses.AVOID)
+                    radiobutton("Nemam pauze u toku dana", value = Repository.IntermediaryPauses.AVOID) { isSelected = true }
                     radiobutton("Svejedno mi je", value = Repository.IntermediaryPauses.NONE)
 
-                }
-            }
-
-            field("Više volim da:", Orientation.VERTICAL) {
-                togglegroup {
-                    wizardViewModel.arrangementPrefProperty.bind(selectedValueProperty())
-                    radiobutton("Imam nastavu ravnomerno raspoređenu tokom cele nedelje", value = Repository.ArrangementPreference.EVEN)
-                    radiobutton("Imam više časova u toku dana, ali zato i slobodne dane", value = Repository.ArrangementPreference.GROUPED)
-                    radiobutton("Svejedno", value = Repository.ArrangementPreference.NONE)
                 }
             }
         }

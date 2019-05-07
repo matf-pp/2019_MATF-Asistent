@@ -65,37 +65,5 @@ class MainView: View("MatfAsistent") {
                 label("Sadržaj")
             }
         }
-
-        right {
-            vbox {
-                style {
-                    border = Border(
-                        BorderStroke(
-                            Color.BLACK,
-                            BorderStrokeStyle.SOLID,
-                            CornerRadii(0.0),
-                            BorderWidths.DEFAULT
-                        )
-                    )
-                }
-                alignment = Pos.CENTER
-                label("Obaveštenja")
-                listview(Repository.notifications) {
-                    cellFormat {
-                        graphic = cache {
-                            vbox {
-                                label(it.title) {
-                                    style {
-                                        fontSize = 16.px
-                                        fontWeight = FontWeight.BOLD
-                                    }
-                                }
-                                label(it.content)
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }

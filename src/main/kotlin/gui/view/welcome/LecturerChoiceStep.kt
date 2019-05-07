@@ -42,11 +42,7 @@ class LecturerChoiceStep: View("Izbor predavača") {
             selectedLecturers.any { it.first == course.title && it.second == course.lecturer }
         }
 
-        Repository.generateTimetables(
-            coursesWithSelectedLecturers,
-            viewModel.intermediaryPausesProperty.value,
-            viewModel.arrangementPrefProperty.value
-        )
+        Repository.generateTimetables(coursesWithSelectedLecturers, viewModel.intermediaryPausesProperty.value)
         super.onSave()
     }
 

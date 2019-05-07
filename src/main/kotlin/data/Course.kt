@@ -22,7 +22,7 @@ data class Course(
     var start: Int = 0,
     var duration: Int = 3,
     var lecturer: String = "",
-    var id: Int = getNextId() // TODO Potrebno nešto što će biti jedinstveno za svaki objekat, da li može hashCode?
+    var id: Int = getNextId()
 )
 {
     enum class Type {

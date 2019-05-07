@@ -22,16 +22,13 @@ fun fetchCourseListTask(minor: Repository.Minor, year: Repository.YearOfStudy) =
 
     val htmlSuffixii = when (year) {
         Repository.YearOfStudy.FIRST -> when (minor) {
-            L, M, R, N, V, MA -> forms(6..13)
+            L, M, R, N, V -> forms(6..13)
             I, AI -> listOf("index.html", *forms(1..5).toTypedArray())
-            AF -> TODO()
         }
         Repository.YearOfStudy.SECOND -> when (minor) {
             L, R -> forms(20..23)
             M, N, V -> forms(18, 19)
             I, AI -> forms(14..17)
-            MA -> TODO()
-            AF -> TODO()
         }
         Repository.YearOfStudy.THIRD -> when (minor) {
             L -> forms(26)
@@ -40,8 +37,6 @@ fun fetchCourseListTask(minor: Repository.Minor, year: Repository.YearOfStudy) =
             N -> forms(28)
             V -> forms(30)
             I, AI -> forms(24, 25)
-            MA -> TODO()
-            AF -> TODO()
         }
         Repository.YearOfStudy.FOURTH -> when (minor) {
             L -> forms(33)
@@ -50,8 +45,6 @@ fun fetchCourseListTask(minor: Repository.Minor, year: Repository.YearOfStudy) =
             N -> forms(35)
             V -> forms(37)
             I, AI -> forms(31)
-            MA -> TODO()
-            AF -> TODO()
         }
 
         // TODO master i doktorske studije

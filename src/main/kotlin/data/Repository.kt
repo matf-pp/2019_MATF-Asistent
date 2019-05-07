@@ -31,7 +31,7 @@ object Repository {
     }
 
     enum class Minor {
-        L, M, R, N, V, MA, I, AF, AI;
+        L, M, R, N, V, I, AI;
 
         override fun toString() = when(this) {
             L -> "Profesor matematike i računarstva"
@@ -40,14 +40,8 @@ object Repository {
             N -> "Primenjena matematika"
             V -> "Statistika, aktuarska matematika i finansijska matematika"
             I -> "Informatika"
-            MA -> "Astronomija"
-            AF -> "Astrofizika"
             AI -> "Astroinformatika"
         }
-    }
-    
-    enum class ArrangementPreference {
-        EVEN, GROUPED, NONE
     }
 
     enum class IntermediaryPauses {
@@ -70,11 +64,9 @@ object Repository {
     // Objekat kojem može globalno da se pristupi
     object StudentPreference {
         var intermediaryPauses: IntermediaryPauses = IntermediaryPauses.AVOID
-        var arrangementPreference: ArrangementPreference = ArrangementPreference.NONE
     }
 
     val majors = observableList(Major.COMP_SCI, Major.MATH, Major.ASTRONOMY)
-    val notifications = observableList<Notification>()
 
     var bestTimetableProperty = SimpleObjectProperty<Timetable>()
     var bestTimetable: Timetable
@@ -94,9 +86,8 @@ object Repository {
 
     val courses = observableList<Course>()
 
-    fun generateTimetables(courses: List<Course>, intermediaryPauses: IntermediaryPauses, arrangementPreference: ArrangementPreference) {
+    fun generateTimetables(courses: List<Course>, intermediaryPauses: IntermediaryPauses) {
         StudentPreference.intermediaryPauses = intermediaryPauses
-        StudentPreference.arrangementPreference = arrangementPreference
         generateTimetablesTask(courses)
     }
 
