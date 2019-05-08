@@ -1,18 +1,19 @@
 package gui.widget
 
 import data.Course
-import javafx.beans.value.ObservableValue
 import javafx.geometry.Pos
-import javafx.scene.layout.*
+import javafx.scene.layout.GridPane
+import javafx.scene.layout.Priority
+import javafx.scene.layout.Region
+import javafx.scene.layout.StackPane
 import javafx.scene.paint.Color
 import javafx.scene.text.TextAlignment
 import scheduler.Timetable
 import tornadofx.*
-import java.lang.IllegalStateException
 import java.text.DecimalFormat
 import java.time.DayOfWeek
 
-class TimetableView(timetable: ObservableValue<Timetable>) : GridPane() {
+class TimetableView : GridPane() {
 
     init {
 
@@ -38,12 +39,6 @@ class TimetableView(timetable: ObservableValue<Timetable>) : GridPane() {
             prefWidth = 50.0
             maxWidth = USE_PREF_SIZE
             isFillWidth = true
-        }
-
-        setTimetable(timetable.value)
-
-        timetable.onChange {
-            setTimetable(it)
         }
     }
 
@@ -109,14 +104,10 @@ class TimetableView(timetable: ObservableValue<Timetable>) : GridPane() {
         }
     }
 
-    private fun setTimetable(timetable: Timetable?) {
+    @Synchronized
+    fun setTimetable(timetable: Timetable) {
 
         this.clear()
-
-        if (timetable == null) {
-            return
-        }
-
 
         addHeaders()
 
@@ -193,8 +184,5 @@ class TimetableView(timetable: ObservableValue<Timetable>) : GridPane() {
                 startIndex++
             }
         }
-
-
     }
-
 }

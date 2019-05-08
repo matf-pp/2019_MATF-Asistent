@@ -2,7 +2,7 @@ package gui.view
 
 import data.Repository
 import gui.view.welcome.WelcomeScreenWizard
-import gui.widget.TimetableView
+import gui.widget.TimetableViewWrapper
 import javafx.embed.swing.SwingFXUtils
 import javafx.scene.control.ButtonBar
 import javafx.stage.FileChooser
@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage
 class MainView: View("MatfAsistent") {
 
     override val root = vbox {
-        val timetableView = TimetableView(Repository.bestTimetableProperty)
+        val timetableView = TimetableViewWrapper(Repository.bestTimetableProperty)
         add(timetableView)
 
         buttonbar {
