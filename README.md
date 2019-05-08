@@ -16,5 +16,5 @@ Za kompilaciju je preporučeno razvojno okruženje IntelliJIDEA. Projekat korist
 Izvršiva distribucija programa je `.jar` datoteka, za čije izvršavanje je potrebna Java virtuelna mašina.
 
 ## Članovi tima
-- Olivera Popović,  [popovic-olivera](https://github.com/popovic-olivera)
-- Aleksandar Stefanović, [aleksandar-stefanovic](https://github.com/aleksandar-stefanovic)
+- Olivera Popović 64/2016,  [popovic-olivera](https://github.com/popovic-olivera)
+- Aleksandar Stefanović 479/2017, [aleksandar-stefanovic](https://github.com/aleksandar-stefanovic)
