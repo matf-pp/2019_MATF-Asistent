@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <solver>
     <!-- Definisanje modela -->
-    <scanAnnotatedClasses>
-    </scanAnnotatedClasses>
+    <solutionClass>scheduler.Timetable</solutionClass>
+    <entityClass>data.Course</entityClass>
 
     <!-- Definisanje funkcije za računanje rezultata -->
     <scoreDirectorFactory>

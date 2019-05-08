@@ -40,7 +40,7 @@ object Repository {
         override fun toString() = when(this) {
             L -> "Profesor matematike i računarstva"
             M -> "Teorijska matematika i primene"
-            R -> "Računrastvo i informatika"
+            R -> "Računarstvo i informatika"
             N -> "Primenjena matematika"
             V -> "Statistika, aktuarska matematika i finansijska matematika"
             I -> "Informatika"

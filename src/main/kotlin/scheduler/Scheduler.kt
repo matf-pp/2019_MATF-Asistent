@@ -13,27 +13,28 @@ fun generateTimetablesTask(courses: List<Course>) = runAsync {
     val solverFactory : SolverFactory<Timetable> = SolverFactory.createFromXmlResource("scheduler/solver/timetableSolverConfig.xml")
     val solver : Solver<Timetable> = solverFactory.buildSolver()
 
-    val dayList : MutableList<Day> = mutableListOf( Day(DayOfWeek.MONDAY),
-                                                    Day(DayOfWeek.TUESDAY),
-                                                    Day(DayOfWeek.WEDNESDAY),
-                                                    Day(DayOfWeek.THURSDAY),
-                                                    Day(DayOfWeek.FRIDAY))
+    val dayList : List<Day> = listOf(Day(DayOfWeek.MONDAY),
+                                     Day(DayOfWeek.TUESDAY),
+                                     Day(DayOfWeek.WEDNESDAY),
+                                     Day(DayOfWeek.THURSDAY),
+                                     Day(DayOfWeek.FRIDAY))
 
     val unsolvedTimetable = Timetable(courses, dayList)
 
-    solver.addEventListener {
-        if (it.newBestScore?.isSolutionInitialized == true) {
-            updateBestSolution(it.newBestSolution)
-            println(it.newBestScore)
-        }
+    for(course in courses) {
+        println(course.toString())
     }
+
     val solvedTimetable : Timetable = solver.solve(unsolvedTimetable)
 
     for(course in solvedTimetable.courseList) {
         println(course.toString())
     }
 
-    println(solvedTimetable.score) // Najbolji pronađen rezultat
+    println(solvedTimetable.score?.hardScore) // Najbolji pronađen rezultat
+    println(solvedTimetable.score?.softScore)
+
+    updateBestSolution(solvedTimetable)
 }
 
 fun updateBestSolution(timetable: Timetable) {
