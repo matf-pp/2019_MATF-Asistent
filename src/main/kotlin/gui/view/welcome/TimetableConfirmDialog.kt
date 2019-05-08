@@ -7,8 +7,6 @@ import tornadofx.vbox
 
 class TimetableConfirmDialog : View("Potvrda rasporeda") {
 
-    override val root = vbox {
-        add(TimetableViewWrapper(Repository.bestTimetableProperty))
-    }
+    override val root = TimetableViewWrapper(Repository.bestTimetableProperty)
 
 }

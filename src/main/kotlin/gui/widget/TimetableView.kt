@@ -20,8 +20,7 @@ class TimetableView : GridPane() {
         minWidth = Region.USE_PREF_SIZE
         prefWidth = 1100.0
 
-        minHeight = Region.USE_PREF_SIZE
-        prefHeight = 400.0
+        minHeight = 400.0
 
         style {
             // Ivice su ostvarene tako što tabela ima određenu boju, i ta boja se prikazuje
@@ -120,7 +119,7 @@ class TimetableView : GridPane() {
 
             var startIndex = 8
 
-            courseList.filter { it.assignedDay != null }.forEach { course ->
+            courseList.filter { it.assignedDay != null }.sortedBy(Course::start).forEach { course ->
 
                 while (startIndex < course.start) {
                     pane {
