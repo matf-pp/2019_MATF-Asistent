@@ -23,7 +23,7 @@
     </localSearch>
 
     <termination>
-        <minutesSpentLimit>1</minutesSpentLimit>
+        <secondsSpentLimit>45</secondsSpentLimit>
     </termination>
 
 </solver>

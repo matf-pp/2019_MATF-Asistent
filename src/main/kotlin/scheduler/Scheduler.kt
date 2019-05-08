@@ -20,19 +20,7 @@ fun generateTimetablesTask(courses: List<Course>) = runAsync {
                                      Day(DayOfWeek.FRIDAY))
 
     val unsolvedTimetable = Timetable(courses, dayList)
-
-    for(course in courses) {
-        println(course.toString())
-    }
-
     val solvedTimetable : Timetable = solver.solve(unsolvedTimetable)
-
-    for(course in solvedTimetable.courseList) {
-        println(course.toString())
-    }
-
-    println(solvedTimetable.score?.hardScore) // Najbolji pronađen rezultat
-    println(solvedTimetable.score?.softScore)
 
     updateBestSolution(solvedTimetable)
 }
