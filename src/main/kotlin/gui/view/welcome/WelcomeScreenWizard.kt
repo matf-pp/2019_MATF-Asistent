@@ -43,17 +43,17 @@ class WelcomeScreenWizard : Wizard("Formiranje rasporeda") {
         val majorProperty = SimpleObjectProperty<Repository.Major>()
         val minorProperty = SimpleObjectProperty<Repository.Minor>()
         val intermediaryPausesProperty = SimpleObjectProperty<Repository.IntermediaryPauses>(Repository.IntermediaryPauses.AVOID)
-        val yearOfStudyProperty = SimpleObjectProperty<Repository.YearOfStudy>()
+        val yearsOfStudy = observableList<Repository.YearOfStudy>()
         init {
 
-            // Svaki put kada se promeni modul ili godina, potrebno je da se promeni i spisak kurseva
+            // Svaki put kada se promeni modul ili izbor godina, potrebno je da se promeni i spisak kurseva
             minorProperty.onChange { updateCourseList() }
-            yearOfStudyProperty.onChange { updateCourseList() }
+            yearsOfStudy.onChange { updateCourseList() }
         }
 
         private fun updateCourseList() {
-            if (minorProperty.value != null && yearOfStudyProperty.value != null) {
-                Repository.updateCourseList(minorProperty.value, yearOfStudyProperty.value)
+            if (minorProperty.value != null && yearsOfStudy.isNotEmpty()) {
+                Repository.updateCourseList(minorProperty.value, yearsOfStudy)
             }
         }
     }

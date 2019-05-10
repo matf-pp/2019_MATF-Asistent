@@ -11,7 +11,7 @@ import tornadofx.property
  *  (za tu upotrebu, videti [Course]).
  *
  */
-data class CourseDef(var title: String, var minor: Repository.Minor, var year: Repository.YearOfStudy) {
+data class CourseDef(var title: String) {
 
     class Lecturer(var name: String, selected: Boolean = true) {
 
@@ -26,6 +26,6 @@ data class CourseDef(var title: String, var minor: Repository.Minor, var year: R
     var lecturers: ObservableList<Lecturer> = FXCollections.observableArrayList<Lecturer>()
 
     // Ovo svojstvo služi da se čuva informacija o tome da li je izabran ovaj kurs na listi dostupnih kurseva
-    var selected: Boolean by property(true)
+    var selected: Boolean by property(false)
     val selectedProperty = getProperty(CourseDef::selected)
 }

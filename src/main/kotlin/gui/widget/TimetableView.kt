@@ -20,7 +20,7 @@ class TimetableView : GridPane() {
         minWidth = Region.USE_PREF_SIZE
         prefWidth = 1100.0
 
-        minHeight = 400.0
+        minHeight = 430.0
 
         style {
             // Ivice su ostvarene tako što tabela ima određenu boju, i ta boja se prikazuje

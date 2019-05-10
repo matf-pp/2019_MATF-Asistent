@@ -13,11 +13,11 @@ class StudentInfoStep : View("Izbor godine") {
     override val complete = booleanBinding(
         wizardViewModel.majorProperty,
         wizardViewModel.minorProperty,
-        wizardViewModel.yearOfStudyProperty,
+        wizardViewModel.yearsOfStudy,
         wizardViewModel.intermediaryPausesProperty) {
             wizardViewModel.majorProperty.isNotNull.value &&
             wizardViewModel.minorProperty.isNotNull.value &&
-            wizardViewModel.yearOfStudyProperty.isNotNull.value &&
+            wizardViewModel.yearsOfStudy.isNotEmpty() &&
             wizardViewModel.intermediaryPausesProperty.isNotNull.value
     }
 
@@ -49,10 +49,10 @@ class StudentInfoStep : View("Izbor godine") {
         }
     }
 
-    private val minorsPickerDisabled = booleanBinding(wizardViewModel.majorProperty) {
-        wizardViewModel.majorProperty.value == Repository.Major.COMP_SCI ||
-        wizardViewModel.majorProperty.value == Repository.Major.ASTRONOMY ||
-        wizardViewModel.majorProperty.value == null
+    private val minorsPickerEnabled = booleanBinding(wizardViewModel.majorProperty) {
+        wizardViewModel.majorProperty.value != Repository.Major.COMP_SCI &&
+        wizardViewModel.majorProperty.value != Repository.Major.ASTRONOMY &&
+        wizardViewModel.majorProperty.value != null
     }
 
     override val root = form {
@@ -61,23 +61,41 @@ class StudentInfoStep : View("Izbor godine") {
             this@fieldset.spacing = 30.0
             labelPosition = Orientation.VERTICAL
 
-            field("Moj smer je:") {
-                combobox(wizardViewModel.majorProperty, Repository.majors) {
-                    promptText = "Izaberite smer"
+            field {
+                hbox(10) {
+                    vbox(3) {
+                        label("Moj smer je:")
+                        combobox(wizardViewModel.majorProperty, Repository.majors) {
+                            promptText = "Izaberite smer"
+                        }
+                    }
+
+
+                    vbox(3) {
+                        visibleProperty().bind(minorsPickerEnabled)
+
+                        label("Moj modul je:")
+                        combobox(wizardViewModel.minorProperty) {
+                            itemsProperty().bind(minorsAvailable)
+                            promptText = "Izaberite modul"
+                        }
+                    }
                 }
             }
 
-            field("Moj modul je:") {
-                combobox(wizardViewModel.minorProperty) {
-                    itemsProperty().bind(minorsAvailable)
-                    disableProperty().bind(minorsPickerDisabled)
-                    promptText = "Izaberite modul"
-                }
-            }
-
-            field("Moja godina studija je:") {
-                combobox(wizardViewModel.yearOfStudyProperty, enumValues<Repository.YearOfStudy>().toList()) {
-                    promptText = "Izaberite godinu studija"
+            field("Imam kurseve sa godina:") {
+                hbox(10) {
+                    enumValues<Repository.YearOfStudy>().map { year ->
+                        checkbox(year.toString()) {
+                            selectedProperty().onChange {
+                                if (it) {
+                                    wizardViewModel.yearsOfStudy.add(year)
+                                } else {
+                                    wizardViewModel.yearsOfStudy.remove(year)
+                                }
+                            }
+                        }
+                    }
                 }
             }
 

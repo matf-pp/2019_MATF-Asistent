@@ -2,6 +2,7 @@ package scraper
 
 import data.Course
 import data.CourseDef
+import data.CourseDef.Lecturer
 import data.Repository
 import data.Repository.Minor.*
 import org.jsoup.Jsoup
@@ -12,45 +13,62 @@ import java.lang.IllegalStateException
 import java.time.DayOfWeek
 
 data class CourseData(var startIndex: Int, var duration: Int, var title: String, var lecturer: String, var classroom: String) {
-    fun eq(other: Any?): Boolean {
+
+    override fun equals(other: Any?): Boolean {
         if (other == null || other !is CourseData) return false
         return title == other.title && lecturer == other.lecturer && classroom == other.classroom
     }
+
+    /* Automatski generisan hashCode */
+    override fun hashCode(): Int {
+        var result = title.hashCode()
+        result = 31 * result + lecturer.hashCode()
+        result = 31 * result + classroom.hashCode()
+        return result
+    }
 }
 
-fun fetchCourseListTask(minor: Repository.Minor, year: Repository.YearOfStudy) = runAsync {
+fun fetchCourseListTask(minor: Repository.Minor, years: List<Repository.YearOfStudy>) = runAsync {
 
-    val htmlSuffixii = when (year) {
-        Repository.YearOfStudy.FIRST -> when (minor) {
-            L, M, R, N, V -> forms(6..13)
-            I, AI -> listOf("index.html", *forms(1..5).toTypedArray())
-        }
-        Repository.YearOfStudy.SECOND -> when (minor) {
-            L, R -> forms(20..23)
-            M, N, V -> forms(18, 19)
-            I, AI -> forms(14..17)
-        }
-        Repository.YearOfStudy.THIRD -> when (minor) {
-            L -> forms(26)
-            M -> forms(27)
-            R -> forms(29)
-            N -> forms(28)
-            V -> forms(30)
-            I, AI -> forms(24, 25)
-        }
-        Repository.YearOfStudy.FOURTH -> when (minor) {
-            L -> forms(33)
-            M -> forms(34)
-            R -> forms(36)
-            N -> forms(35)
-            V -> forms(37)
-            I, AI -> forms(31)
-        }
+    years.flatMap { year ->
+        // U ovom koraku, prikupljaju se svi sufiksi veb strana rasporeda, u jednu listu : List<String>
+        when (year) {
+            Repository.YearOfStudy.FIRST -> when (minor) {
+                L, M, R, N, V -> forms(6..13)
+                I, AI -> listOf("index.html", *forms(1..5).toTypedArray())
+            }
+            Repository.YearOfStudy.SECOND -> when (minor) {
+                L, R -> forms(20..23)
+                M, N, V -> forms(18, 19)
+                I, AI -> forms(14..17)
+            }
+            Repository.YearOfStudy.THIRD -> when (minor) {
+                L -> forms(26)
+                M -> forms(27)
+                R -> forms(29)
+                N -> forms(28)
+                V -> forms(30)
+                I, AI -> forms(24, 25)
+            }
+            Repository.YearOfStudy.FOURTH -> when (minor) {
+                L -> forms(33)
+                M -> forms(34)
+                R -> forms(36)
+                N -> forms(35)
+                V -> forms(37)
+                I, AI -> forms(31)
+            }
 
-        // TODO master i doktorske studije
-        Repository.YearOfStudy.MASTERS, Repository.YearOfStudy.DOCTORATE -> throw IllegalStateException("Neispravna godina: $year")
-    }
-    htmlSuffixii.flatMap {
+            Repository.YearOfStudy.MASTERS -> when (minor) {
+                L -> forms(39)
+                M -> forms(40)
+                R -> forms(42)
+                N -> forms(41)
+                V -> forms(43)
+                I, AI -> forms(38)
+            }
+        }
+    }.flatMap {
         Jsoup.connect("http://poincare.matf.bg.ac.rs/~kmiljan/raspored/sve/$it").get()
             .selectFirst("table")
             .selectFirst("tbody")
@@ -67,10 +85,8 @@ fun fetchCourseListTask(minor: Repository.Minor, year: Repository.YearOfStudy) =
             "Среда" -> DayOfWeek.WEDNESDAY
             "Четвртак" -> DayOfWeek.THURSDAY
             "Петак" -> DayOfWeek.FRIDAY
-
             else -> throw IllegalStateException("Nije prepoznat dan u nedelji:${it.selectFirst("td").text()}")
         }
-
 
         val courseData = coursesFromRawData(it.children(startIndex = 1))
 
@@ -99,8 +115,8 @@ fun fetchCourseListTask(minor: Repository.Minor, year: Repository.YearOfStudy) =
         }
 
         // Usput, dodaj ovaj kurs u skup definicija kurseva
-        val courseDef = CourseDef(courseData.title, minor, year)
-        courseDef.lecturers.add(CourseDef.Lecturer(courseData.lecturer))
+        val courseDef = CourseDef(courseData.title)
+        courseDef.lecturers.add(Lecturer(courseData.lecturer))
         addCourseDefToRepository(courseDef)
 
         Course(
@@ -115,7 +131,6 @@ fun fetchCourseListTask(minor: Repository.Minor, year: Repository.YearOfStudy) =
         )
     }.let { list ->
         runLater {
-            Repository.courses.clear()
             Repository.courses.addAll(list)
         }
     }
@@ -181,7 +196,7 @@ private fun coursesFromRawData(rawList: List<Element>): Set<CourseData> {
         CourseData(it.first, it.second, title, lecturer, classroom)
     }.fold(mutableSetOf()) { acc, current ->
         // Ovo će spojiti više časova vežbi u jedan čas vežbi
-        val existing = acc.find { it.eq(current) }
+        val existing = acc.find { it == current }
 
         if (existing != null) {
             existing.duration += current.duration

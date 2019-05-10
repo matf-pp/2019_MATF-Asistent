@@ -53,7 +53,7 @@ object Repository {
     }
 
     enum class YearOfStudy {
-        FIRST, SECOND, THIRD, FOURTH, MASTERS, DOCTORATE;
+        FIRST, SECOND, THIRD, FOURTH, MASTERS;
 
         override fun toString() = when (this) {
             FIRST -> "Prva godina OAS"
@@ -61,7 +61,6 @@ object Repository {
             THIRD -> "Treća godina OAS"
             FOURTH -> "Četvrta godina OAS"
             MASTERS -> "Master studije"
-            DOCTORATE -> "Doktorske studije"
         }
     }
 
@@ -101,9 +100,10 @@ object Repository {
         generateTimetablesTask(courses)
     }
 
-    fun updateCourseList(minor: Minor, year: YearOfStudy) {
+    fun updateCourseList(minor: Minor, years: List<YearOfStudy>) {
         courseDefs.clear()
-        fetchCourseListTask(minor, year)
+        courses.clear()
+        fetchCourseListTask(minor, years)
     }
 
     fun loadFromSavefile() = runAsync {
