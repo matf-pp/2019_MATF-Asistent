@@ -121,11 +121,8 @@ object Repository {
                 timetable.updateModel(jsonObject)
                 bestTimetable = timetable
             }
-
         } catch (e: Exception) {
-            if (e !is FileNotFoundException) {
-                e.printStackTrace()
-            }
+            // Ako iz bilo kog razloga ne uspe učitavanje rasporeda iz datoteke, prikaži Wizard ponovo.
             ui {
                 find<WelcomeScreenWizard>().openModal()
             }
@@ -133,8 +130,9 @@ object Repository {
     }
 
     private fun saveToSavefile(timetable: Timetable) = runAsync {
-
-        File("savefile.json").writeText(timetable.toJSON().toPrettyString())
+        if (timetable.courseList.none { it.assignedDay != null }) {
+            File("savefile.json").writeText(timetable.toJSON().toPrettyString())
+        }
 
     }
 }
