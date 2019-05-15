@@ -152,13 +152,15 @@ private fun addCourseDefToRepository(courseDef: CourseDef) {
 
 private fun coursesFromRawData(rawList: List<Element>): Set<CourseData> {
 
+    // Prvi čas počinje u 8:15
     var startIndex = 8
 
-    return rawList.map {
+    return rawList.map { element ->
         //Ovaj korak će dodeliti odgovarajuće početne časove i trajanja svakom od časova
 
-        val duration = it.attr("colspan").toIntOrNull() ?: 1
-        val returnVal = Triple(startIndex, duration, it)
+        // Ako ima colspan, pročitaj ga, ako nema, onda je širina 1
+        val duration = element.attr("colspan").toIntOrNull() ?: 1
+        val returnVal = Triple(startIndex, duration, element)
 
         // Kada je neko predavanje 2h ili 3h, početni indeks treba dodatno da se poveća.
         startIndex += duration
@@ -181,9 +183,9 @@ private fun coursesFromRawData(rawList: List<Element>): Set<CourseData> {
             // Nije prepoznat element
             else -> emptyList<Triple<Int, Int, Element>>()
         }
-    }.filter {
+    }.filterNot {
         // Ovo će ukloniti "prazne" časove
-        !it.third.text().isNullOrBlank()
+        it.third.text().isNullOrBlank()
     }.map {
         // Ovo će pretvoriti "sirovo" Triple<Int, Int, Element> u CourseData
         val innerHtml = it.third.selectFirst("small")?.html() ?: it.third.html()
@@ -191,15 +193,23 @@ private fun coursesFromRawData(rawList: List<Element>): Set<CourseData> {
         val title = dataList[0]
         // Nekada postoji i informacija o grupi ("GR1", "GR2"...), pa ima 4 elementa umesto 3.
         val lecturer = if (dataList.size == 3) dataList[1] else dataList[2]
-        val classroom = if (dataList.size == 3) dataList[2] else dataList[3]
+        var classroom = if (dataList.size == 3) dataList[2] else dataList[3]
+
+        // Ako naziv učionice sadrži '&' (e.g. "ЈАГ 3&4"), pretvoriti HTML oznaku tog znaka u taj znak
+        if (classroom.contains("&amp;")) {
+            classroom = classroom.replace("&amp;", "&")
+        }
 
         CourseData(it.first, it.second, title, lecturer, classroom)
+
     }.fold(mutableSetOf()) { acc, current ->
         // Ovo će spojiti više časova vežbi u jedan čas vežbi
-        val existing = acc.find { it == current }
 
-        if (existing != null) {
-            existing.duration += current.duration
+        val last = acc.lastOrNull()
+
+        // Ako je poslednji čas isti kao i tekući, spoji njihove dužine
+        if (last == current) {
+            last.duration += current.duration
         } else {
             acc.add(current)
         }
