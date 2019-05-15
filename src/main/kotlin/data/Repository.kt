@@ -130,7 +130,7 @@ object Repository {
     }
 
     private fun saveToSavefile(timetable: Timetable) = runAsync {
-        if (timetable.courseList.none { it.assignedDay != null }) {
+        if (timetable.courseList.any { it.assignedDay != null }) {
             File("savefile.json").writeText(timetable.toJSON().toPrettyString())
         }
 

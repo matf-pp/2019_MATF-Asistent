@@ -18,7 +18,7 @@ class TimetableView : GridPane() {
     init {
 
         minWidth = Region.USE_PREF_SIZE
-        prefWidth = 1100.0
+        prefWidth = 1200.0
 
         minHeight = 430.0
 
