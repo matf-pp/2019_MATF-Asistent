@@ -5,11 +5,12 @@ import data.CourseDef
 import data.CourseDef.Lecturer
 import data.Repository
 import data.Repository.Minor.*
+import gui.view.showAlertDialog
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import tornadofx.runAsync
 import tornadofx.runLater
-import java.lang.IllegalStateException
+import tornadofx.ui
 import java.time.DayOfWeek
 
 data class CourseData(var startIndex: Int, var duration: Int, var title: String, var lecturer: String, var classroom: String) {
@@ -69,8 +70,18 @@ fun fetchCourseListTask(minor: Repository.Minor, years: List<Repository.YearOfSt
             }
         }
     }.flatMap {
-        Jsoup.connect("http://poincare.matf.bg.ac.rs/~kmiljan/raspored/sve/$it").get()
-            .selectFirst("table")
+        val document = try {
+            Jsoup.connect("http://poincare.matf.bg.ac.rs/~kmiljan/raspored/sve/$it").get()
+        } catch (e: Exception) {
+            ui {
+                showAlertDialog("Nije moguće pristupiti rasporedu na vebu",
+                    "Proverite vašu vezu sa Internetom. Ako se problem ponavlja, moguće je da sajt rasporeda nije " +
+                            "trenutno dostupan.")
+            }
+            return@runAsync
+        }
+
+        document.selectFirst("table")
             .selectFirst("tbody")
             .selectFirst("tr")
             .selectFirst("td:eq(1)")
@@ -227,7 +238,7 @@ private fun forms(vararg indices: Int) = indices.map { "form_${it.toString().pad
 private fun forms(indices: IntRange) = forms(*indices.toList().toIntArray())
 
 // Vremenska kompleksnost O(n * m), ali nije problematično za male kolekcije.
-private fun  MutableCollection<CourseDef.Lecturer>.addUnique(other: Collection<CourseDef.Lecturer>) {
+private fun  MutableCollection<Lecturer>.addUnique(other: Collection<Lecturer>) {
     other.forEach { element ->
         if (this.find { it.name == element.name } == null) {
             this.add(element)
